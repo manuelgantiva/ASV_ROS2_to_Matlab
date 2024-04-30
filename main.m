@@ -10,11 +10,11 @@
 % directorio_destino.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 close all;clc;clear;
-folder = ['Rosbags 25-04-2024\ASV3-25-4-bag-38'];
+folder = ['Rosbags 23-04-2024\ASV3-23-4-bag-37'];
 addpath Extraer\
 addpath Figuras\
 
-directorio_destino = 'E:\AsvMatlab\ScriptASVMatlab\ScriptASVMatlab\Data';
+directorio_destino = 'C:\Users\Simone\Desktop\ASV project\Ros2Matlab\Data';
 % GENERAR DATOS Y GUARDAR EN CARPETA DATA
 % Observador Guille
 obs_guille = extract_obs(folder, "/control/state_observer_guille");
@@ -80,23 +80,23 @@ angvel_data(:, 1) = -1* angvel_data(:, 1);
 
 %% Prueba Gabi
 
-angvel_data = table(angvel_data(:,1),angvel_data(:,2), 'VariableNames', {'r_imu', 'tiempo'});
-linvel_data = table(linvel_data(:,1),linvel_data(:,2),linvel_data(:,3), 'VariableNames', {'u_imu','v_imu','tiempo'});
-obs_guille = table(obs_guille(:,1),obs_guille(:,2),obs_guille(:,3),obs_guille(:,4),obs_guille(:,5),obs_guille(:,6),obs_guille(:,7),obs_guille(:,8),obs_guille(:,9),obs_guille(:,10), 'VariableNames', {'x_hat','y_hat','psi_hat','u_hat','v_hat','r_hat','su_hat','sv_hat','sr_hat','tiempo'});
-obs_liu= table(obs_liu(:,1),obs_liu(:,2),obs_liu(:,3),obs_liu(:,4),obs_liu(:,5),obs_liu(:,6),obs_liu(:,7),obs_liu(:,8),obs_liu(:,9),obs_liu(:,10), 'VariableNames', {'x_hat','y_hat','psi_hat','u_hat','v_hat','r_hat','su_hat','sv_hat','sr_hat','tiempo'});
-pose_gps = table(pose_gps(:,1),pose_gps(:,2),pose_gps(:,3),pose_gps(:,4),'VariableNames',{'x','y','psi','tiempo'});
-pose_data = table(pose_data(:,1),pose_data(:,2),pose_data(:,3),pose_data(:,4),'VariableNames',{'x','y','psi','tiempo'});
-pose_data_liu = table(pose_data_liu(:,1),pose_data_liu(:,2),pose_data_liu(:,3),pose_data_liu(:,4), 'VariableNames',{'x_hat','y_hat','psi_hat','tiempo'});
-pose_data_obs = table(pose_data_obs(:,1),pose_data_obs(:,2),pose_data_obs(:,3),pose_data_obs(:,4), 'VariableNames',{'x_hat','y_hat','psi_hat','tiempo'});
-psi_data= table(psi_data(:,1),psi_data(:,2), 'VariableNames', {'psi_grados', 'tiempo'});
-RC_data_in = table(RC_data_in(:,1),RC_data_in(:,2),RC_data_in(:,3), 'VariableNames', {'left','right','tiempo'});
-RC_data_out= table(RC_data_out(:,1),RC_data_out(:,2),RC_data_out(:,3), 'VariableNames', {'left','right','tiempo'});
-RC_data_over= table(RC_data_over(:,1),RC_data_over(:,2),RC_data_over(:,3), 'VariableNames', {'left','right','tiempo'});
-ref_llc_data =  table(ref_llc_data(:,1),ref_llc_data(:,2),ref_llc_data(:,3),ref_llc_data(:,4), 'VariableNames', {'u_ref','r_ref','psi_ref','tiempo'});
-ref_mlc_data =  table(ref_mlc_data(:,1),ref_mlc_data(:,2), 'VariableNames', {'u_d','tiempo'});
-IGu_data = table(IGu_data(:,1),IGu_data(:,2),IGu_data(:,3),IGu_data(:,4), 'VariableNames', {'u_dot_ref','error','sigma_u','tiempo'});
-IGr_data = table(IGr_data(:,1),IGr_data(:,2),IGr_data(:,3),IGr_data(:,4), 'VariableNames', {'kr','kpsi','r_dot_ref','tiempo'});
-error_data = table(error_data(:,1),error_data(:,2),error_data(:,3),error_data(:,4), 'VariableNames', {'xe','ye','w','tiempo'});
+angvel_data = table(angvel_data(:,1),angvel_data(:,2)*10^-9, 'VariableNames', {'r_imu', 'tiempo'});
+linvel_data = table(linvel_data(:,1),linvel_data(:,2),linvel_data(:,3)*10^-9, 'VariableNames', {'u_imu','v_imu','tiempo'});
+obs_guille = table(obs_guille(:,1),obs_guille(:,2),obs_guille(:,3),obs_guille(:,4),obs_guille(:,5),obs_guille(:,6),obs_guille(:,7),obs_guille(:,8),obs_guille(:,9),obs_guille(:,10)*10^-9, 'VariableNames', {'x_hat','y_hat','psi_hat','u_hat','v_hat','r_hat','su_hat','sv_hat','sr_hat','tiempo'});
+obs_liu= table(obs_liu(:,1),obs_liu(:,2),obs_liu(:,3),obs_liu(:,4),obs_liu(:,5),obs_liu(:,6),obs_liu(:,7),obs_liu(:,8),obs_liu(:,9),obs_liu(:,10)*10^-9, 'VariableNames', {'x_hat','y_hat','psi_hat','u_hat','v_hat','r_hat','su_hat','sv_hat','sr_hat','tiempo'});
+pose_gps = table(pose_gps(:,1),pose_gps(:,2),pose_gps(:,3),pose_gps(:,4)*10^-9,'VariableNames',{'x','y','psi','tiempo'});
+pose_data = table(pose_data(:,1),pose_data(:,2),pose_data(:,3),pose_data(:,4)*10^-9,'VariableNames',{'x','y','psi','tiempo'});
+pose_data_liu = table(pose_data_liu(:,1),pose_data_liu(:,2),pose_data_liu(:,3),pose_data_liu(:,4)*10^-9, 'VariableNames',{'x_hat','y_hat','psi_hat','tiempo'});
+pose_data_obs = table(pose_data_obs(:,1),pose_data_obs(:,2),pose_data_obs(:,3),pose_data_obs(:,4)*10^-9, 'VariableNames',{'x_hat','y_hat','psi_hat','tiempo'});
+psi_data= table(psi_data(:,1),psi_data(:,2)*10^-9, 'VariableNames', {'psi_grados', 'tiempo'});
+RC_data_in = table(RC_data_in(:,1),RC_data_in(:,2),RC_data_in(:,3)*10^-9, 'VariableNames', {'left','right','tiempo'});
+RC_data_out= table(RC_data_out(:,1),RC_data_out(:,2),RC_data_out(:,3)*10^-9, 'VariableNames', {'left','right','tiempo'});
+RC_data_over= table(RC_data_over(:,1),RC_data_over(:,2),RC_data_over(:,3)*10^-9, 'VariableNames', {'left','right','tiempo'});
+ref_llc_data =  table(ref_llc_data(:,1),ref_llc_data(:,2),ref_llc_data(:,3),ref_llc_data(:,4)*10^-9, 'VariableNames', {'u_ref','r_ref','psi_ref','tiempo'});
+ref_mlc_data =  table(ref_mlc_data(:,1),ref_mlc_data(:,2)*10^-9, 'VariableNames', {'u_d','tiempo'});
+IGu_data = table(IGu_data(:,1),IGu_data(:,2),IGu_data(:,3),IGu_data(:,4)*10^-9, 'VariableNames', {'u_dot_ref','error','sigma_u','tiempo'});
+IGr_data = table(IGr_data(:,1),IGr_data(:,2),IGr_data(:,3),IGr_data(:,4)*10^-9, 'VariableNames', {'kr','kpsi','r_dot_ref','tiempo'});
+error_data = table(error_data(:,1),error_data(:,2),error_data(:,3),error_data(:,4)*10^-9, 'VariableNames', {'xe','ye','w','tiempo'});
 
 %% Save files .mat
 % save(fullfile(directorio_destino, 'angvel_data.mat'));
