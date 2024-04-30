@@ -2,10 +2,14 @@
 custom/matlab_msg_gen
 
 # Folder Data
-Data/
+
 
 # Folder Ros2bags
-ASV*/
+ASV4*/
+ASV3*/
+ASV2*/
+ASV1*/
+ASV0*/
 
 # Windows default autosave extension
 *.asv
