@@ -130,7 +130,7 @@ error_data = table(error_data(:,1),error_data(:,2),error_data(:,3),error_data(:,
 
 %% Plot figuras
 addpath Figuras/
-figuraRC(RC_data_ino, RC_data_out,  directorio_destino)
+figuraRC(RC_data_in, RC_data_out,  directorio_destino)
 figura_pose(pose_data, pose_data_obs, pose_data_liu, directorio_destino)
 figura_angvel(angvel_data, linvel_data, obs_guille, obs_liu, directorio_destino)
 trayectoria(pose_data, pose_data_obs, pose_data_liu, directorio_destino,1)
