@@ -2,7 +2,10 @@
 custom/matlab_msg_gen
 
 # Folder Data
+Data/
 
+# Rosbags Data
+Rosbags*/
 
 # Folder Ros2bags
 ASV4*/
