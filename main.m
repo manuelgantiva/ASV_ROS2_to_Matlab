@@ -10,11 +10,11 @@
 % directorio_destino.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 close all;clc;clear;
-folder = ['Rosbags 25-04-2024\ASV3-25-4-bag-38'];
-addpath Extraer\
-addpath Figuras\
+folder = 'Rosbags 25-04-2024/ASV3-25-4-bag-38';
+addpath Extraer/
+addpath Figuras/
 
-directorio_destino = 'E:\AsvMatlab\ScriptASVMatlab\ScriptASVMatlab\Data';
+directorio_destino = '/home/patrizio/Documents/MATLAB/ROS2Matlab/Data';
 % GENERAR DATOS Y GUARDAR EN CARPETA DATA
 % Observador Guille
 obs_guille = extract_obs(folder, "/control/state_observer_guille");
