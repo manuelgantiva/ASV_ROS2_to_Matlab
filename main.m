@@ -99,6 +99,7 @@ IGr_data = table(IGr_data(:,1),IGr_data(:,2),IGr_data(:,3),IGr_data(:,4), 'Varia
 error_data = table(error_data(:,1),error_data(:,2),error_data(:,3),error_data(:,4), 'VariableNames', {'xe','ye','w','tiempo'});
 
 %% Save files .mat
+
 % save(fullfile(directorio_destino, 'angvel_data.mat'));
 % save(fullfile(directorio_destino, 'linvel_data.mat'));
 % save(fullfile(directorio_destino, 'obs_guille.mat'));
@@ -118,17 +119,19 @@ error_data = table(error_data(:,1),error_data(:,2),error_data(:,3),error_data(:,
 % save(fullfile(directorio_destino, 'error_data.mat'));
 
 %% Extract information from .mat
-%close all
+
+% close all
 % % obtener variables en el Workspace
-% % directorio = '/home/ubuntu-ecoport/Desktop/ScriptASVMatlab/Data';
-% % archivos = dir(fullfile(directorio, '*.mat'));
-% % for i = 1:length(archivos)
-% %     nombreArchivo = archivos(i).name;
-% %     load(nombreArchivo); 
-% % end
-% 
+% directorio = "C:\Users\megantiva\OneDrive - Universidad Loyola Andalucía\Documentos\MATLAB\Ros2Mat\Data";
+% archivos = dir(fullfile(directorio, '*.mat'));
+% for i = 1:length(archivos)
+%     nombreArchivo = archivos(i).name;
+%     load(nombreArchivo); 
+% end
+% directorio_destino =  "C:\Users\megantiva\OneDrive - Universidad Loyola Andalucía\Documentos\MATLAB\Ros2Mat\Data";
 
 %% Plot figuras
+
 addpath Figuras/
 figuraRC(RC_data_in, RC_data_out,  directorio_destino)
 figura_pose(pose_data, pose_data_obs, pose_data_liu, directorio_destino)
