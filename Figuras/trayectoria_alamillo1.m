@@ -452,6 +452,15 @@ elseif path == 11
     % Unir las trayectorias
     x_total = [x, x1, x2];
     y_total = [y, y1, y2];
+elseif path == 12
+    t = linspace(0, 30.0, 100); % Desde 0 hasta 1 con 100 puntos
+    % Definir las funciones para x(t) y y(t)
+    x = 0.0 + 0.0 * t;
+    y = 0.0 - 1.0 * t;
+   
+    % Unir las trayectorias
+    x_total = [x];
+    y_total = [y];
 end
 
 end
