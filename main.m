@@ -136,8 +136,11 @@ addpath Figuras/
 figuraRC(RC_data_in, RC_data_out,  directorio_destino)
 figura_pose(pose_data, pose_data_obs, pose_data_liu, directorio_destino)
 figura_angvel(angvel_data, linvel_data, obs_guille, obs_liu, directorio_destino)
-trayectoria(pose_data, pose_data_obs, pose_data_liu, directorio_destino,1)
+trayectoria(pose_data, pose_data_obs, pose_data_liu, directorio_destino,6)
 figuraRefu(ref_llc_data, obs_guille, obs_liu, angvel_data,linvel_data, directorio_destino)
 figuraIG(IGu_data, IGr_data, directorio_destino)
 figuraMLC(error_data, ref_mlc_data, directorio_destino)
 
+%% Plot Mapas
+% addpath Mapas/
+% Mapa_real(pose_data, pose_data_obs, pose_data_liu, directorio_destino,2,3, false)

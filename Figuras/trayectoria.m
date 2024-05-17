@@ -1,8 +1,8 @@
 function trayectoria( pose_data, pose_data_obs, pose_data_liu, directorio_destino, path)
 
-% x_total , y_total = trayectoria_loyola1(path);
-[x_total, y_total] = trayectoria_loyola2(path);
-% [x_total, y_total] = trayectoria_alamillo1(path);
+% [x_total, y_total] = trayectoria_loyola1(path);
+% [x_total, y_total] = trayectoria_loyola2(path);
+[x_total, y_total] = trayectoria_alamillo1(path);
 
 figure;
 grid on
