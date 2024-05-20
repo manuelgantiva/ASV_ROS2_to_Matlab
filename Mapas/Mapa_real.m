@@ -14,7 +14,7 @@ if lake == 0
     else
         mapa = imread('Lago de la vida 1 Normal.png');
     end
-    mapTitle = 'LAGO DE LA VIDA';
+    mapTitle = '$Lake~of~Life$';
     
     % DEFINIR ORIGEN DE COORDENADAS XY (EN PIXELES)
     origen_x = 1619; % Define la coordenada x del origen
@@ -48,7 +48,7 @@ elseif lake == 2
     else
         mapa = imread('Lago Alamillo Normal.png');
     end
-    mapTitle = 'LAGO DEL ALAMILLO';
+    mapTitle = '$LAGO DEL ALAMILLO$';
     % DEFINIR ORIGEN DE COORDENADAS XY (EN PIXELES)
     origen_x = 2781; % Define la coordenada x del origen
     origen_y = 1335;  % Define la coordenada y del origen
@@ -64,7 +64,7 @@ elseif lake == 3
     else
         mapa = imread('Lago de la vida 2 Normal.png');
     end
-    mapTitle = 'LAGO DE LA VIDA';
+    mapTitle = '$LAGO DE LA VIDA$';
     % DEFINIR ORIGEN DE COORDENADAS XY (EN PIXELES)
     origen_x = 2023;  % Define la coordenada x del origen
     origen_y = 1744;  % Define la coordenada y del origen
@@ -85,32 +85,32 @@ imshow(mapa, 'XData', x_lim, 'YData', y_lim)
 set(gca, 'YDir', 'normal'); % Esto cambia la dirección del eje Y a normal
 axis on
 hold on
-scatter(0,0,30,'r','filled')
+scatter(0,0,30,'k','filled')
 
 % DIBUJAR EJES EN LA IMAGEN
-plot([0,0],y_lim, 'k','LineWidth',0.5)
-plot(x_lim,[0,0], 'k','LineWidth',0.5)
+plot([0,0],y_lim, 'k','LineWidth',1.0)
+plot(x_lim,[0,0], 'k','LineWidth',1.0)
 %% Plot
 
 % plot(ctps_corregidos(1,:),ctps_corregidos(2,:),'xb-')
 hold all
 % plot(q(1,:), q(2,:),'color',"b",'LineWidth',2)
 % Trayectoria Deseada
-plot(x_total, y_total, 'k', 'LineWidth', 1.5);
+plot(x_total, y_total, '-b', 'LineWidth', 1.5);
 % Trayectoria real
-plot(pose_data.y(1,1), pose_data.x(1,1), '-p','Color','c', 'LineWidth', 1)
-plot(pose_data.y(end,1), pose_data.x(end,1), '-p', 'Color','c','LineWidth', 1);
-plot(pose_data_obs.y_hat, pose_data_obs.x_hat, 'r', 'LineWidth', 1);
-plot(pose_data_liu.y_hat, pose_data_liu.x_hat, 'g', 'LineWidth', 1);
-
-xlabel('NORTE (m)')
-ylabel('ESTE (m)')
-title(mapTitle)
-set(gca, 'XAxisLocation', 'top','YAxisLocation', 'right')
-leg1 = legend('$Dron~1$','$Start$','$Yaw~estimad~o~liu~k_n~=~1$','$Yaw~estimad~o~liu~k_n~=~10$','$Desired~Path$');
+plot(pose_data.y(1,1), pose_data.x(1,1), '^','Color','y', 'LineWidth', 1.5,'MarkerFaceColor','y' )
+plot(pose_data.y(end,1), pose_data.x(end,1), 'o', 'Color','g','LineWidth', 1.5, 'MarkerFaceColor','g');
+plot(pose_data_obs.y_hat, pose_data_obs.x_hat, 'r', 'LineWidth', 1.5);
+% plot(pose_data_liu.y_hat, pose_data_liu.x_hat, 'g', 'LineWidth', 1);
+hold off
+xlabel('$South~(m)$','Interpreter','latex','FontSize',12)
+ylabel('$East~(m)$','Interpreter','latex','FontSize',12)
+set(gca, 'XAxisLocation', 'bottom','YAxisLocation', 'right')
+set(gca, 'FontSize', 10);
+leg1 = legend('','','','$Desired~Path$','$Start$','$end$','$Bejarano~et~al.~[6]$');
 set(leg1,'Interpreter','latex');
-set(leg1,'FontSize',10);
-title('$Trajectory$','Interpreter','latex','FontSize',15)
+set(leg1,'FontSize',12);
+title(mapTitle,'Interpreter','latex','FontSize',15)
 hold off
 savefig(fullfile(directorio_destino, 'Mapa.fig'));
 end
