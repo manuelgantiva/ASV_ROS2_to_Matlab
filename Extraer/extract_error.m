@@ -27,6 +27,7 @@ function out = extract_error(folder_name, topic_name)
         % time(i,1) = sec + nano;
     end
     time = double(bagSel.MessageList{:,1});
+    time = time/1e9;
     % Creación del vector de posición
     out = [xe, ye, w, time];
 end

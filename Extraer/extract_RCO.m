@@ -24,6 +24,7 @@ function out = extract_RCO(folder_name, topic_name)
         % time(i,1) = sec + nano;
     end
     time = double(bagSel.MessageList{:,1});
+    time = time/1e9;
     % Creación del vector de posición
     out = [RC_L, RC_R, time];
 end

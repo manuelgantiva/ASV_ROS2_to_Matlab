@@ -10,7 +10,7 @@
 % directorio_destino.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 close all;clc;clear;
-folder = ['Rosbags 25-06-2024\ASV4-25-6-bag-4'];
+folder = ['Rosbags 10-07-2024\ASV4-10-7-bag-1'];
 addpath Extraer\
 addpath Figuras\
 
@@ -20,7 +20,7 @@ directorio_destino = 'C:\Users\megantiva\Documents\MATLAB\Ros2Mat\Data';
 obs_guille = extract_obs(folder, "/control/state_observer_guille");
 % Observador Liu
 obs_liu = extract_obs(folder, "/control/state_observer_liu");
-% Posiciones
+% Posiciones   
 pose_gps= extract_pose(folder, "/mavros/local_position/pose");
 pose_data = extract_pose(folder, "/control/pose");
 psi_data = extract_psi(folder, "/mavros/global_position/compass_hdg");
@@ -29,6 +29,10 @@ pose_data_obs = extract_pose(folder, "/control/pose_guille");
 % velocidades
 linvel_data = extract_vel(folder, "/mavros/local_position/velocity_body", 1);
 angvel_data = extract_vel(folder, "/mavros/imu/data", 2);
+% Acceleraciones
+accel_data = extract_vel(folder, "/mavros/imu/data", 3);
+accel_data_raw = extract_vel(folder, "/mavros/imu/data_raw", 3);
+accel_plane = extract_vel(folder, "/control/accel_imu", 4); 
 % RCOUT
 RC_data_out = extract_RC(folder, "/mavros/rc/out");
 % RCIN
@@ -51,6 +55,9 @@ error_data = extract_error(folder, "/control/error_mlc");
 valorInicial = RC_data_in(1,3);
 % Recorre cada matriz y resta el valorInicial de la última columna
 angvel_data(:,end) = angvel_data(:, end) - valorInicial;
+accel_data(:,end) = accel_data(:, end) - valorInicial;
+accel_data_raw(:,end) = accel_data_raw(:, end) - valorInicial;
+accel_plane(:,end) = accel_plane(:, end) - valorInicial;
 linvel_data(:, end) = linvel_data(:, end) - valorInicial;
 obs_guille(:, end) = obs_guille(:, end) - valorInicial;
 obs_liu(:, end) = obs_liu(:, end) - valorInicial;
@@ -77,10 +84,14 @@ error_data(:, end) = error_data(:, end) - valorInicial;
 % obs_guille(:, 3) = -1*obs_guille(:, 3);
 % ref_llc_data(:, 3) = -(ref_llc_data(:, 3)-(2*ref_llc_data(1, 3)));
 angvel_data(:, 1) = -1* angvel_data(:, 1);
+linvel_data(:, 2) = -1* linvel_data(:, 2);
 
 %% Prueba Gabi
 
 angvel_data = table(angvel_data(:,1),angvel_data(:,2), 'VariableNames', {'r_imu', 'tiempo'});
+accel_data = table(accel_data(:,1),accel_data(:,2),accel_data(:,3),accel_data(:,4), 'VariableNames', {'a_u', 'a_v', 'a_z', 'tiempo'});
+accel_data_raw = table(accel_data_raw(:,1),accel_data_raw(:,2),accel_data_raw(:,3),accel_data_raw(:,4), 'VariableNames', {'a_u', 'a_v', 'a_z', 'tiempo'});
+accel_plane = table(accel_plane(:,1),accel_plane(:,2),accel_plane(:,3),accel_plane(:,4), 'VariableNames', {'a_u', 'a_v', 'a_z', 'tiempo'});
 linvel_data = table(linvel_data(:,1),linvel_data(:,2),linvel_data(:,3), 'VariableNames', {'u_imu','v_imu','tiempo'});
 obs_guille = table(obs_guille(:,1),obs_guille(:,2),obs_guille(:,3),obs_guille(:,4),obs_guille(:,5),obs_guille(:,6),obs_guille(:,7),obs_guille(:,8),obs_guille(:,9),obs_guille(:,10), 'VariableNames', {'x_hat','y_hat','psi_hat','u_hat','v_hat','r_hat','su_hat','sv_hat','sr_hat','tiempo'});
 obs_liu= table(obs_liu(:,1),obs_liu(:,2),obs_liu(:,3),obs_liu(:,4),obs_liu(:,5),obs_liu(:,6),obs_liu(:,7),obs_liu(:,8),obs_liu(:,9),obs_liu(:,10), 'VariableNames', {'x_hat','y_hat','psi_hat','u_hat','v_hat','r_hat','su_hat','sv_hat','sr_hat','tiempo'});
@@ -101,6 +112,9 @@ error_data = table(error_data(:,1),error_data(:,2),error_data(:,3),error_data(:,
 %% Save files .mat
 
 % save(fullfile(directorio_destino, 'angvel_data.mat'));
+% save(fullfile(directorio_destino, 'accel_data.mat'));
+% save(fullfile(directorio_destino, 'accel_data_raw.mat'));
+% save(fullfile(directorio_destino, 'accel_plane.mat'));
 % save(fullfile(directorio_destino, 'linvel_data.mat'));
 % save(fullfile(directorio_destino, 'obs_guille.mat'));
 % save(fullfile(directorio_destino, 'obs_liu.mat'));
@@ -132,16 +146,21 @@ error_data = table(error_data(:,1),error_data(:,2),error_data(:,3),error_data(:,
 
 %% Plot figuras
 
-directorio_destino = 'C:\Users\megantiva\Documents\MATLAB\Ros2Mat\Plots';
 addpath Figuras/
-figuraRC(RC_data_in, RC_data_out,  directorio_destino)
-figura_pose(pose_data, pose_data_obs, pose_data_liu, directorio_destino)
+directorio_destino = 'C:\Users\megantiva\Documents\MATLAB\Ros2Mat\Plots';
+figuraRC(RC_data_out, RC_data_in,  directorio_destino)
+% figura_pose(pose_data, pose_data_obs, pose_data_liu, directorio_destino)
 figura_angvel(angvel_data, linvel_data, obs_guille, obs_liu, directorio_destino)
-% trayectoria(pose_data, pose_data_obs, pose_data_liu, directorio_destino,12)
+figura_accel(accel_plane, angvel_data, obs_guille, linvel_data, directorio_destino)
+trayectoria(pose_data, pose_data_obs, pose_data_liu, directorio_destino,10)
 figuraRefu(ref_llc_data, obs_guille, obs_liu, angvel_data,linvel_data, directorio_destino)
-figuraIG(IGu_data, IGr_data, directorio_destino)
-% figuraMLC(error_data, ref_mlc_data, directorio_destino)
+% figuraIG(IGu_data, IGr_data, directorio_destino)
+figuraMLC(error_data, ref_mlc_data, directorio_destino)
 
 %% Plot Mapas
-% addpath Mapas/
-% Mapa_real(pose_data, pose_data_obs, pose_data_liu, directorio_destino,12,1, false)
+addpath Mapas/
+Mapa_real(pose_data, pose_data_obs, pose_data_liu, directorio_destino,10,1, false)
+% Lake = 0 Mapa Lago de la Vida Grande
+% Lake = 1 Mapa Lago del Alamillo Izquierda
+% Lake = 2 Mapa Lago del Alamillo Derecha
+% Lake = 3 Mapa Lago de la Vida Pequeño

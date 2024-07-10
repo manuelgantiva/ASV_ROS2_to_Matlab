@@ -25,6 +25,31 @@ savefig(fullfile(directorio_destino, 'apm_surge.fig'));
 %% 
 figure;
 grid on
+plot(obs.tiempo,obs.v_hat, 'r', 'LineWidth', 0.5);
+hold on
+plot(obs_liu.tiempo,obs_liu.v_hat, 'k', 'LineWidth', 0.5);
+hold on
+plot(linvel_data.tiempo,linvel_data.v_imu, 'm', 'LineWidth', 0.5);
+hold off
+grid on
+%
+xlabel('$Time~(s)$','Interpreter','latex','FontSize',12);
+ylabel('$Sway~(m~s^{-1})$','Interpreter','latex','FontSize',12);
+% legend('Medido', 'Bejarano', 'Liu');
+leg1 = legend('$Sway~estimado~K_n~=~1$','$Sway~estimad~o~liu~k_n~=~10$','$Sway~apm$');
+set(leg1,'Interpreter','latex');
+set(leg1,'FontSize',10);
+title('$Actual~and~Estimation~values~of~Sway$','Interpreter','latex','FontSize',15)
+% xlabel('Tiempo (s)');
+% ylabel('Surge u (m/s) ');
+% legend('Surge ref', 'Surge estimado kn = 1','Surge estimado liu kn = 10', 'Surge apm');
+% title ('Actual and Estimation values of Surje');
+savefig(fullfile(directorio_destino, 'apm_sway.fig'));
+
+%% 
+
+figure;
+grid on
 plot(ref_llc.tiempo,ref_llc.r_ref, 'b', 'LineWidth', 0.5);
 hold on
 plot(obs.tiempo,obs.r_hat, 'r', 'LineWidth', 0.5);

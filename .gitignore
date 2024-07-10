@@ -1,8 +1,9 @@
 # matlab_msg_gen 
 custom/matlab_msg_gen
 
-# Folder Data
+# Folder Data y Plots
 Data/
+Plots/
 
 # Rosbags Data
 Rosbags*/

@@ -12,7 +12,7 @@ ylim([1100 1950])
 xlabel('$Time~(s)$','Interpreter','latex','FontSize',12);
 ylabel('$PWM~(RPM)$','Interpreter','latex','FontSize',12);
 % legend('Medido', 'Bejarano', 'Liu');
-leg1 = legend('$PWM_L$','$PWM_R$');
+leg1 = legend('$Out_PWM_L$','$Out_PWM_R$','$In_PWM_L$','$In_PWM_R$');
 set(leg1,'Interpreter','latex');
 set(leg1,'FontSize',10);
 title('$Thruster~Signal$','Interpreter','latex','FontSize',15);

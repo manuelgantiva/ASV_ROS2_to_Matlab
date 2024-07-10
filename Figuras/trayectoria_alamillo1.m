@@ -367,28 +367,27 @@ elseif path == 9
     x_total = [x, x1, x2, x3, x4, x5, x6, x7];
     y_total = [y, y1, y2, y3, y4, y5, y6, y7];
 elseif path == 10
-    % Trayectorias parametrizadas
     t = linspace(0, 7.5, 100); % Desde 0 hasta 1 con 100 puntos
     % Definir las funciones para x(t) y y(t)
     x = 3.0 + 0.0 * t;
     y = -6.0 - 2.0 * t;
     
     % Definir parámetros de tiempo
-    t = linspace(3.141592653589793 , 4.173674215590471, 100); %  100 puntos
+    t = linspace(3.141592653589793 , 4.222431654131293, 100); %  100 puntos
     % Definir las funciones para x(t) y y(t)
     x1 = 1.0 - 2.0 * cos(t);
     y1 = -21.0 + 2.0 * sin(t);
     
-    t = linspace(0, 0.6, 100); % Desde 0 hasta 1 con 100 puntos
+    t = linspace(0, 0.5, 100); % Desde 0 hasta 1 con 100 puntos
     % Definir las funciones para x(t) y y(t)
-    x2 = 2.0260664198611105 - 1.7167375169295385 * t;
-    y2 = -22.71673751692954 - 1.0260664198611134 * t;
+    x2 =  1.9411764705876497 - 1.7647058823532542 * t;
+    y2 = -22.764705882353255 - 0.9411764705876484 * t;
     
     % Definir parámetros de tiempo
-    t = linspace(2.109511091589117 , 3.141592691589117, 100); %  100 puntos
+    t = linspace(2.0607536530482924 , 3.1415926535897927, 100); %  100 puntos
     % Definir las funciones para x(t) y y(t)
-    x3 = 2.02 + 2.0 * cos(t);
-    y3 = -25.04 + 2.0 * sin(t);
+    x3 = 2.0 + 2.0 * cos(t);
+    y3 = -25.0 + 2.0 * sin(t);
     
     t = linspace(0, 0.5, 100); % Desde 0 hasta 1 con 100 puntos
     % Definir las funciones para x(t) y y(t)
@@ -407,18 +406,18 @@ elseif path == 10
     y6 = -26.0 + 2.0 * t;
     
     % Definir parámetros de tiempo
-    t = linspace(0.0 , 1.0320815620006778, 100); %  100 puntos
+    t = linspace(0.0 , 1.0808390005415003, 100); %  100 puntos
     % Definir las funciones para x(t) y y(t)
     x7 = 2.0 + 2.0 * cos(t);
     y7 = -25.0 + 2.0 * sin(t);
     
-    t = linspace(0, 0.6, 100); % Desde 0 hasta 1 con 100 puntos
+    t = linspace(0, 0.5, 100); % Desde 0 hasta 1 con 100 puntos
     % Definir las funciones para x(t) y y(t)
-    x8 = 3.0260664198611105 - 1.7167375169295416 * t;
-    y8 = -23.28326248307046 + 1.026066419861108 * t;
+    x8 = 2.9411764705876493 - 1.7647058823532535 * t;
+    y8 = -23.235294117646745 + 0.9411764705876495 * t;
     
     % Definir parámetros de tiempo
-    t = linspace(-1.0320815620006787 , 0.0, 100); %  100 puntos
+    t = linspace(-1.0808390005415003 , 0.0, 100); %  100 puntos
     % Definir las funciones para x(t) y y(t)
     x9 = 3.0 - 2.0 * cos(t);
     y9 = -21. + 2.0 * sin(t);
