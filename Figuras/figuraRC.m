@@ -1,5 +1,5 @@
 function figuraRC(RC_data_out, RC_data_over, directorio_destino)
-figure;
+fig = figure('Name', 'PWM Signals', 'NumberTitle', 'off');
 plot(RC_data_out.tiempo,RC_data_out.left, 'b', 'LineWidth', 0.5);
 hold on
 grid on
@@ -8,17 +8,13 @@ plot(RC_data_over.tiempo,RC_data_over.right, 'g', 'LineWidth', 0.5);
 plot(RC_data_over.tiempo,RC_data_over.left, 'k', 'LineWidth', 0.5);
 hold off
 ylim([1100 1950])
+xlim([0 inf]);
 %
-xlabel('$Time~(s)$','Interpreter','latex','FontSize',12);
-ylabel('$PWM~(RPM)$','Interpreter','latex','FontSize',12);
-% legend('Medido', 'Bejarano', 'Liu');
-leg1 = legend('$Out_PWM_L$','$Out_PWM_R$','$In_PWM_L$','$In_PWM_R$');
+xlabel('Time $(s)$','Interpreter','latex','FontSize',12);
+ylabel('PWM $(RPM)$','Interpreter','latex','FontSize',12);
+leg1 = legend('Out $PWM_L$','Out $PWM_R$','In $PWM_L$','In $PWM_R$');
 set(leg1,'Interpreter','latex');
 set(leg1,'FontSize',10);
-title('$Thruster~Signal$','Interpreter','latex','FontSize',15);
-%title('$Thruster~Speed$','latex','FontSize',15)
-% xlabel('Tiempo (s)');
-% ylabel('PWM ');
-% legend('RC_L (RPM)', 'RC_R (RPM)');
+title('Thruster Signal','Interpreter','latex','FontSize',15);
 savefig(fullfile(directorio_destino, 'RC.fig'));
 end

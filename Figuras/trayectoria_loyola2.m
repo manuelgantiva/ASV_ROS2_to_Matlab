@@ -63,7 +63,12 @@ elseif path == 2
     % Unir las trayectorias
     x_total = [x, x1, x2, x3, x4];
     y_total = [y, y1, y2, y3, y4];
-
+elseif path == -1
+    x = [];
+    y = [];
+    % Unir las trayectorias
+    x_total = [x];
+    y_total = [y];
 end
 
 end

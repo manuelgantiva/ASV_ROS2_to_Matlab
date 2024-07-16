@@ -1,55 +1,56 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Autor: Thalia Morel and Manuel Gantiva
-% Proyecto ECOPORT
+% Proyecto ECOPORT y AQUATRONIC
 % Escuela Técnica Superior de Ingeniería 
 % Universidad Loyola Andalucía
 % Fecha: 30.04.2024
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Código que pasa los rosbag a datos de MATLAB. Todos los datos y figuras
-% se guardan en la carpeta Data, la cual se puede cambiar en
-% directorio_destino.
+% Code that converts rosbag data to MATLAB data. All data and figures
+% are saved in the Data and plots folders, which can be changed in
+% destination_directory.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 close all;clc;clear;
-folder = ['Rosbags 10-07-2024\ASV4-10-7-bag-1'];
+folder = ['Rosbags 11-07-2024\ASV1-11-7-bag-2'];
 addpath Extraer\
 addpath Figuras\
 
 directorio_destino = 'C:\Users\megantiva\Documents\MATLAB\Ros2Mat\Data';
 % GENERAR DATOS Y GUARDAR EN CARPETA DATA
 % Observador Guille
-obs_guille = extract_obs(folder, "/control/state_observer_guille");
+obs_guille = extract_obs(folder, "/control/state_observer_guille");         %asv_interfaces/msg/state_observer
 % Observador Liu
-obs_liu = extract_obs(folder, "/control/state_observer_liu");
+obs_liu = extract_obs(folder, "/control/state_observer_liu");               %asv_interfaces/msg/state_observer
 % Posiciones   
-pose_gps= extract_pose(folder, "/mavros/local_position/pose");
-pose_data = extract_pose(folder, "/control/pose");
-psi_data = extract_psi(folder, "/mavros/global_position/compass_hdg");
-pose_data_liu = extract_pose(folder, "/control/pose_liu");
-pose_data_obs = extract_pose(folder, "/control/pose_guille");
+pose_gps= extract_pose(folder, "/mavros/local_position/pose");              %geometry_msgs/msg/pose_stamped
+pose_data = extract_pose(folder, "/control/pose");                          %geometry_msgs/msg/pose_stamped
+psi_data = extract_psi(folder, "/mavros/global_position/compass_hdg");      %std_msgs/msg/float64
+pose_data_liu = extract_pose(folder, "/control/pose_liu");                  %geometry_msgs/msg/pose_stamped
+pose_data_obs = extract_pose(folder, "/control/pose_guille");               %geometry_msgs/msg/pose_stamped
 % velocidades
-linvel_data = extract_vel(folder, "/mavros/local_position/velocity_body", 1);
-angvel_data = extract_vel(folder, "/mavros/imu/data", 2);
+linvel_data = extract_vel(folder, "/mavros/local_position/velocity_body", 1);   %geometry_msgs/msg/twist_stamped
+angvel_data = extract_vel(folder, "/mavros/imu/data", 2);                   %sensor_msgs/msg/imu -> solo velocidad angular
 % Acceleraciones
-accel_data = extract_vel(folder, "/mavros/imu/data", 3);
-accel_data_raw = extract_vel(folder, "/mavros/imu/data_raw", 3);
-accel_plane = extract_vel(folder, "/control/accel_imu", 4); 
+accel_data = extract_vel(folder, "/mavros/imu/data", 3);                    %sensor_msgs/msg/imu -> velocidades lineales y cuaterniones                 
+accel_data_raw = extract_vel(folder, "/mavros/imu/data_raw", 3);            %sensor_msgs/msg/imu -> velocidades lineales y cuaterniones
+accel_plane = extract_vel(folder, "/control/accel_imu", 4);                 %geometry_msgs/msg/twist -> velocidades lineales y angulos
 % RCOUT
-RC_data_out = extract_RC(folder, "/mavros/rc/out");
+RC_data_out = extract_RC(folder, "/mavros/rc/out");                         %mavros_msgs/msg/rc_out
 % RCIN
-RC_data_in = extract_RC(folder, "/mavros/rc/in");
+RC_data_in = extract_RC(folder, "/mavros/rc/in");                           %mavros_msgs/msg/rc_in
 % RCOVER
-RC_data_over = extract_RCO(folder, "/mavros/rc/override");
+RC_data_over = extract_RCO(folder, "/mavros/rc/override");                  %mavros_msgs/msg/override_rc_in
 % Reference
-ref_llc_data = extract_ref(folder, "/control/reference_llc");
-ref_mlc_data = extract_ref_mlc(folder, "/control/reference_mlc");
-IGu_data = extract_IG(folder, "/control/IGu_ifac");
-IGr_data = extract_IG(folder, "/control/IGr_ifac");
+ref_llc_data = extract_ref(folder, "/control/reference_llc");               %geometry_msgs/msg/vector3
+ref_mlc_data = extract_ref_mlc(folder, "/control/reference_mlc");           %std_msgs/msg/float64
+IG_data = extract_IG(folder, "/control/IG_ifac");                           %geometry_msgs/msg/vector3
 % ref APM (ardupilot)
-ref_APM_data = extract_ref_APM(folder, "/mavros/setpoint_velocity/cmd_vel_unstamped");
+ref_APM_data = extract_ref_APM(folder, "/mavros/setpoint_velocity/cmd_vel_unstamped");  %geometry_msgs/msg/twist
 % PWM 
-ref_PWM_data = extract_PWM(folder, "/control/pwm_values");
+ref_PWM_data = extract_PWM(folder, "/control/pwm_values");                  %asv_interfaces/msg/pwm_values
 % error
-error_data = extract_error(folder, "/control/error_mlc");
+error_data = extract_error(folder, "/control/error_mlc");                   %geometry_msgs/msg/vector3
+% Xbee
+neighbor_data = extract_neighbor(folder, "/comunication/xbee_observer");    %asv_interfaces/msg/XbeeObserver
 
 %% 
 valorInicial = RC_data_in(1,3);
@@ -73,9 +74,9 @@ ref_APM_data(:, end) = ref_APM_data(:, end) - valorInicial;
 ref_llc_data(:, end) = ref_llc_data(:, end) - valorInicial;
 ref_mlc_data(:, end) = ref_mlc_data(:, end) - valorInicial;
 ref_PWM_data(:, end) = ref_PWM_data(:, end) - valorInicial;
-IGu_data(:, end) = IGu_data(:, end) - valorInicial;
-IGr_data(:, end) = IGr_data(:, end) - valorInicial;
+IG_data(:, end) = IG_data(:, end) - valorInicial;
 error_data(:, end) = error_data(:, end) - valorInicial;
+neighbor_data(:, end) = neighbor_data(:, end) - valorInicial;
 
 %% Correct IMU reference frame
 
@@ -86,7 +87,7 @@ error_data(:, end) = error_data(:, end) - valorInicial;
 angvel_data(:, 1) = -1* angvel_data(:, 1);
 linvel_data(:, 2) = -1* linvel_data(:, 2);
 
-%% Prueba Gabi
+%% Convert the read data into tables
 
 angvel_data = table(angvel_data(:,1),angvel_data(:,2), 'VariableNames', {'r_imu', 'tiempo'});
 accel_data = table(accel_data(:,1),accel_data(:,2),accel_data(:,3),accel_data(:,4), 'VariableNames', {'a_u', 'a_v', 'a_z', 'tiempo'});
@@ -105,9 +106,9 @@ RC_data_out= table(RC_data_out(:,1),RC_data_out(:,2),RC_data_out(:,3), 'Variable
 RC_data_over= table(RC_data_over(:,1),RC_data_over(:,2),RC_data_over(:,3), 'VariableNames', {'left','right','tiempo'});
 ref_llc_data =  table(ref_llc_data(:,1),ref_llc_data(:,2),ref_llc_data(:,3),ref_llc_data(:,4), 'VariableNames', {'u_ref','r_ref','psi_ref','tiempo'});
 ref_mlc_data =  table(ref_mlc_data(:,1),ref_mlc_data(:,2), 'VariableNames', {'u_d','tiempo'});
-IGu_data = table(IGu_data(:,1),IGu_data(:,2),IGu_data(:,3),IGu_data(:,4), 'VariableNames', {'u_dot_ref','error','sigma_u','tiempo'});
-IGr_data = table(IGr_data(:,1),IGr_data(:,2),IGr_data(:,3),IGr_data(:,4), 'VariableNames', {'kr','kpsi','r_dot_ref','tiempo'});
+IG_data = table(IG_data(:,1),IG_data(:,2),IG_data(:,3),IG_data(:,4), 'VariableNames', {'IGu','IGr','zone','tiempo'});
 error_data = table(error_data(:,1),error_data(:,2),error_data(:,3),error_data(:,4), 'VariableNames', {'xe','ye','w','tiempo'});
+neighbor_data = table(neighbor_data(:,1),neighbor_data(:,2),neighbor_data(:,3),neighbor_data(:,4),neighbor_data(:,5),neighbor_data(:,6),neighbor_data(:,7), 'VariableNames', {'x_n','y_n','psi_n','u_n','v_n','r_n','tiempo'});
 
 %% Save files .mat
 
@@ -128,39 +129,50 @@ error_data = table(error_data(:,1),error_data(:,2),error_data(:,3),error_data(:,
 % save(fullfile(directorio_destino, 'RC_data_over.mat'));
 % save(fullfile(directorio_destino, 'ref_llc_data.mat'));
 % save(fullfile(directorio_destino, 'ref_mlc_data.mat'));
-% save(fullfile(directorio_destino, 'IGu_data.mat'));
-% save(fullfile(directorio_destino, 'IGr_data.mat'));
+% save(fullfile(directorio_destino, 'IG_data.mat'));
 % save(fullfile(directorio_destino, 'error_data.mat'));
+% save(fullfile(directorio_destino, 'neighbor_data.mat'));
 
 %% Extract information from .mat
 
 % close all
 % % obtener variables en el Workspace
-% directorio = "C:\Users\megantiva\OneDrive - Universidad Loyola Andalucía\Documentos\MATLAB\Ros2Mat\Data";
+% directorio = "C:\Users\megantiva\Documents\MATLAB\Ros2Mat\Data";
 % archivos = dir(fullfile(directorio, '*.mat'));
 % for i = 1:length(archivos)
 %     nombreArchivo = archivos(i).name;
 %     load(nombreArchivo); 
 % end
-% directorio_destino =  "C:\Users\megantiva\OneDrive - Universidad Loyola Andalucía\Documentos\MATLAB\Ros2Mat\Data";
+% directorio_destino =  "C:\Users\megantiva\Documents\MATLAB\Ros2Mat\Data";
 
 %% Plot figuras
 
 addpath Figuras/
 directorio_destino = 'C:\Users\megantiva\Documents\MATLAB\Ros2Mat\Plots';
 figuraRC(RC_data_out, RC_data_in,  directorio_destino)
-% figura_pose(pose_data, pose_data_obs, pose_data_liu, directorio_destino)
+figura_pose(pose_data, pose_data_obs, pose_data_liu, directorio_destino)
 figura_angvel(angvel_data, linvel_data, obs_guille, obs_liu, directorio_destino)
 figura_accel(accel_plane, angvel_data, obs_guille, linvel_data, directorio_destino)
-trayectoria(pose_data, pose_data_obs, pose_data_liu, directorio_destino,10)
 figuraRefu(ref_llc_data, obs_guille, obs_liu, angvel_data,linvel_data, directorio_destino)
-% figuraIG(IGu_data, IGr_data, directorio_destino)
+figuraIG(IG_data, directorio_destino)
 figuraMLC(error_data, ref_mlc_data, directorio_destino)
+
+%% Link the timelines of all created figures
+
+% figures = findall(0, 'Type', 'figure');
+% axesList = [];
+% for i = 1:length(figures)
+%     ax = findall(figures(i), 'Type', 'axes');
+%     axesList = [axesList; ax];
+% end
+% linkaxes(axesList, 'x');
 
 %% Plot Mapas
 addpath Mapas/
-Mapa_real(pose_data, pose_data_obs, pose_data_liu, directorio_destino,10,1, false)
-% Lake = 0 Mapa Lago de la Vida Grande
-% Lake = 1 Mapa Lago del Alamillo Izquierda
-% Lake = 2 Mapa Lago del Alamillo Derecha
-% Lake = 3 Mapa Lago de la Vida Pequeño
+trayectoria(pose_data, pose_data_obs, pose_data_liu, directorio_destino,5,1)
+Mapa_real(pose_data, pose_data_obs, pose_data_liu, directorio_destino,5,1,false)
+% Mapa_neighbor(pose_data_obs, neighbor_data, directorio_destino,5,9,1,false)
+% % Lake = 0 Mapa Lago de la Vida Grande % %
+% % Lake = 1 Mapa Lago del Alamillo Izquierda % %
+% % Lake = 2 Mapa Lago del Alamillo Derecha % %
+% % Lake = 3 Mapa Lago de la Vida Pequeño % %

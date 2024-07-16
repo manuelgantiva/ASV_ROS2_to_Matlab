@@ -460,6 +460,12 @@ elseif path == 12
     % Unir las trayectorias
     x_total = [x];
     y_total = [y];
+elseif path == -1
+    x = [];
+    y = [];
+    % Unir las trayectorias
+    x_total = [x];
+    y_total = [y];
 end
 
 end

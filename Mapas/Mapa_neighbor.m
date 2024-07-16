@@ -1,4 +1,4 @@
-function Mapa_real( pose_data, pose_data_obs, pose_data_liu, directorio_destino, path, lake, map)
+function Mapa_neighbor( pose_data, pose_neighbor, directorio_destino, path,path_n, lake, map)
 % Lake = 0 Mapa Lago de la Vida Grande
 % Lake = 1 Mapa Lago del Alamillo Izquierda
 % Lake = 2 Mapa Lago del Alamillo Derecha
@@ -24,7 +24,7 @@ if lake == 0
     one_px = 0.0473;
     % Trayectorias parametrizadas
     [x_total, y_total] = trayectoria_loyola1(path);
-
+    [x_total2, y_total2] = trayectoria_loyola1(path_n);
 elseif lake == 1
     % CARGAR IMAGEN DEL MAPA 
     if map == true
@@ -41,6 +41,7 @@ elseif lake == 1
     one_px = 0.09259;
     % Trayectorias parametrizadas
     [x_total, y_total] = trayectoria_alamillo1(path);
+    [x_total2, y_total2] = trayectoria_alamillo1(path_n);
 elseif lake == 2
     % CARGAR IMAGEN DEL MAPA 
     if map == true
@@ -57,6 +58,7 @@ elseif lake == 2
     one_px = 0.09259;
     % Trayectorias parametrizadas
     [x_total, y_total] = trayectoria_alamillo1(path);
+    [x_total2, y_total2] = trayectoria_alamillo1(path_n);
 elseif lake == 3
     % CARGAR IMAGEN DEL MAPA
     if map == true
@@ -73,10 +75,11 @@ elseif lake == 3
     one_px = 10/273;
     % Trayectorias parametrizadas
     [x_total, y_total] = trayectoria_loyola2(path);
+    [x_total2, y_total2] = trayectoria_loyola2(path_n);
 end
 %%
 % CÁLCULO DEL ORIGEN EN METROS (1Px = 0.0473m)
-fig = figure('Name', 'Map', 'NumberTitle', 'off');
+fig = figure('Name', 'Map_neighbor', 'NumberTitle', 'off');
 [filas, columnas, ~] = size(mapa);
 x_lim = [-origen_x*one_px, columnas*one_px - origen_x*one_px];
 y_lim = [origen_y*one_px, -filas*one_px + origen_y*one_px]; % Se invierten los límites del eje Y
@@ -94,21 +97,25 @@ plot(x_lim,[0,0], 'k','LineWidth',1.0)
 %% Plot
 hold all
 % Trayectoria Deseada
-plot(x_total, y_total, '-w', 'LineWidth', 1.5);
+plot(x_total, y_total, '-k', 'LineWidth', 3.0);
+plot(x_total2, y_total2, '-y', 'LineWidth', 3.0);
 % Trayectoria real
-plot(pose_data.y(1,1), pose_data.x(1,1), '^','Color','k', 'LineWidth', 1.0,'MarkerFaceColor','b', 'MarkerSize', 9.0 )
-plot(pose_data.y(end,1), pose_data.x(end,1), 'o', 'Color','k','LineWidth', 1.0, 'MarkerFaceColor','g', 'MarkerSize', 9.0);
-plot(pose_data_obs.y_hat, pose_data_obs.x_hat, 'k', 'LineWidth', 1.5);
-% plot(pose_data_liu.y_hat, pose_data_liu.x_hat, 'r', 'LineWidth', 1);
+plot(pose_data.y_hat(1,1), pose_data.x_hat(1,1), '^','Color','k', 'LineWidth', 1.0,'MarkerFaceColor','b', 'MarkerSize', 9.0 )
+plot(pose_data.y_hat(end,1), pose_data.x_hat(end,1), 'o', 'Color','k','LineWidth', 1.0, 'MarkerFaceColor','g', 'MarkerSize', 9.0);
+plot(pose_data.y_hat, pose_data.x_hat, 'r', 'LineWidth', 2.0);
+
+plot(pose_neighbor.y_n(1,1), pose_neighbor.x_n(1,1), '^','Color','k', 'LineWidth', 1.0,'MarkerFaceColor','m' , 'MarkerSize', 9.0)
+plot(pose_neighbor.y_n(end,1), pose_neighbor.x_n(end,1), 'o', 'Color','k','LineWidth', 1.0, 'MarkerFaceColor','c', 'MarkerSize', 9.0);
+plot(pose_neighbor.y_n, pose_neighbor.x_n, 'w', 'LineWidth', 2.0);
 hold off
 xlabel('South $y(m)$','Interpreter','latex','FontSize',12)
 ylabel('East $x(m)$','Interpreter','latex','FontSize',12)
 set(gca, 'XAxisLocation', 'bottom','YAxisLocation', 'right')
 set(gca, 'FontSize', 10);
-leg1 = legend('','','','$Desired~Path$','$Start$','$end$','$Bejarano~et~al.~[6]$');
+leg1 = legend('','','','$Path$','$Path_n$','$Start$','$end$','$Dron$','$Start_n$','$end_n$','$Dron_n$');
 set(leg1,'Interpreter','latex');
 set(leg1,'FontSize',12);
 title(mapTitle,'Interpreter','latex','FontSize',15)
 hold off
-savefig(fullfile(directorio_destino, 'Mapa.fig'));
+savefig(fullfile(directorio_destino, 'Mapa_neighbor.fig'));
 end
