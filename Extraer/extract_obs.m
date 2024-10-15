@@ -40,7 +40,7 @@ function out = extract_obs(folder_name, topic_name)
         % time(i,1) = sec + nano;
     end
     time = double(bagSel.MessageList{:,1});
-    time = time/1e9;
+    % time = time/1e9;
     % Creación del vector de posición
     out = [x y z u v r sigma_u sigma_v sigma_r time];
    

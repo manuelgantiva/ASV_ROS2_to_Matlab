@@ -12,6 +12,9 @@ function out = extract_vel(folder_name, topic_name, num)
     au = zeros(num_messages, 1);
     av = zeros(num_messages, 1);
     az = zeros(num_messages, 1);
+    roll = zeros(num_messages, 1);
+    pitch = zeros(num_messages, 1);
+    yaw = zeros(num_messages, 1);
     % time = zeros(num_messages, 1);
     
     % Extracción de datos
@@ -30,7 +33,7 @@ function out = extract_vel(folder_name, topic_name, num)
                 % time(i,1) = sec + nano;
             end
             time = double(bagSel.MessageList{:,1});
-            time = time/1e9;
+            % time = time/1e9;
             out = [u, v, time];
         case 2
             for i = 1:num_messages
@@ -45,7 +48,7 @@ function out = extract_vel(folder_name, topic_name, num)
                 % time(i,1) = sec + nano;
             end   
             time = double(bagSel.MessageList{:,1});
-            time = time/1e9;
+            % time = time/1e9;
             out = [r, time];
         case 3
             for i = 1:num_messages
@@ -53,6 +56,7 @@ function out = extract_vel(folder_name, topic_name, num)
                 au(i, 1) = data{i}.linear_acceleration.x;
                 av(i, 1) = data{i}.linear_acceleration.y;
                 az(i, 1) = data{i}.linear_acceleration.z;
+                r(i, 1) = data{i}.angular_velocity.z;
                 % tiempo
                 % format long
                 % sec = data{i, 1}.header.stamp.sec;
@@ -62,14 +66,17 @@ function out = extract_vel(folder_name, topic_name, num)
                 % time(i,1) = sec + nano;
             end   
             time = double(bagSel.MessageList{:,1});
-            time = time/1e9;
-            out = [au, av, az, time];
+            % time = time/1e9;
+            out = [au, av, az, r, time];
         case 4
             for i = 1:num_messages
                 % Acceleraciones lineales
                 au(i, 1) = data{i}.linear.x;
                 av(i, 1) = data{i}.linear.y;
                 az(i, 1) = data{i}.linear.z;
+                roll(i, 1) = data{i}.angular.x;
+                pitch(i, 1) = data{i}.angular.y;
+                yaw(i, 1) = data{i}.angular.z;
                 % tiempo
                 % format long
                 % sec = data{i, 1}.header.stamp.sec;
@@ -79,8 +86,8 @@ function out = extract_vel(folder_name, topic_name, num)
                 % time(i,1) = sec + nano;
             end   
             time = double(bagSel.MessageList{:,1});
-            time = time/1e9;
-            out = [au, av, az, time];
+            % time = time/1e9;
+            out = [au, av, az, roll, pitch, yaw, time];
         otherwise
             disp('El valor no es 1, 2 ni 3');
     end

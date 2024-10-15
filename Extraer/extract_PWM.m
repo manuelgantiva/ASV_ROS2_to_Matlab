@@ -24,7 +24,7 @@ function out = extract_PWM(folder_name, topic_name)
         % time(i,1) = sec + nano;
     end
     time = double(bagSel.MessageList{:,1});
-    time = time/1e9;
+    % time = time/1e9;
     % Creación del vector de posición
     out = [PWM_L, PWM_R, time];
 end

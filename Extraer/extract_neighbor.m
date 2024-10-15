@@ -13,7 +13,7 @@ function out = extract_neighbor(folder_name, topic_name)
     v_n = zeros(num_messages, 1);
     r_n = zeros(num_messages, 1);
     time = double(bagSel.MessageList{:,1});
-    time = time/1e9;
+    % time = time/1e9;
     % Extracción de datos
     for i = num_messages:-1:1
         if(data{i}.counter==1)

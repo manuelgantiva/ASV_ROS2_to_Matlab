@@ -13,7 +13,7 @@ function out = extract_psi(folder_name, topic_name)
         psi(i, 1) = data{i}.data;
     end
     time = double(bagSel.MessageList{:,1});
-    time = time/1e9;
+    % time = time/1e9;
     % Creación del vector de posición
     out = [psi, time];
 end
