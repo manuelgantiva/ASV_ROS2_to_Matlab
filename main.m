@@ -10,7 +10,7 @@
 % destination_directory.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 close all;clc;clear;
-folder = ['Rosbags 07-10-2024\ASV4-7-10-bag-1'];
+folder = ['Rosbags 18-10-2024\ASV4-18-10-bag-15'];
 addpath Extraer\
 addpath Figuras\
 
@@ -136,30 +136,30 @@ IG_data = table(IG_data(:,1),IG_data(:,2),IG_data(:,3),IG_data(:,4), 'VariableNa
 
 %% Save files .mat
 
-% save(fullfile(directorio_destino, 'angvel_data.mat'));
-% save(fullfile(directorio_destino, 'accel_data.mat'));
-% save(fullfile(directorio_destino, 'accel_data_raw.mat'));
-% save(fullfile(directorio_destino, 'accel_plane.mat'));
-% save(fullfile(directorio_destino, 'accel_data_ext.mat'));
-% save(fullfile(directorio_destino, 'accel_plane_ext.mat'));
-% save(fullfile(directorio_destino, 'linvel_data.mat'));
-% save(fullfile(directorio_destino, 'obs_guille.mat'));
-% save(fullfile(directorio_destino, 'obs_liu.mat'));
-% save(fullfile(directorio_destino, 'pose_gps.mat'));
-% save(fullfile(directorio_destino, 'date_gps.mat'));
-% save(fullfile(directorio_destino, 'pose_data.mat'));
-% save(fullfile(directorio_destino, 'pose_data_liu.mat'));
-% save(fullfile(directorio_destino, 'pose_data_obs.mat'));
-% save(fullfile(directorio_destino, 'psi_data.mat'));
-% save(fullfile(directorio_destino, 'RC_data_in.mat'));
-% save(fullfile(directorio_destino, 'RC_data_out.mat'));
-% save(fullfile(directorio_destino, 'RC_data_over.mat'));
-% save(fullfile(directorio_destino, 'ref_APM_data.mat'));
-% save(fullfile(directorio_destino, 'ref_llc_data.mat'));
-% save(fullfile(directorio_destino, 'ref_mlc_data.mat'));
-% save(fullfile(directorio_destino, 'IG_data.mat'));
-% save(fullfile(directorio_destino, 'error_data.mat'));
-% save(fullfile(directorio_destino, 'neighbor_data.mat'));
+save(fullfile(directorio_destino, 'angvel_data.mat'));
+save(fullfile(directorio_destino, 'accel_data.mat'));
+save(fullfile(directorio_destino, 'accel_data_raw.mat'));
+save(fullfile(directorio_destino, 'accel_plane.mat'));
+save(fullfile(directorio_destino, 'accel_data_ext.mat'));
+save(fullfile(directorio_destino, 'accel_plane_ext.mat'));
+save(fullfile(directorio_destino, 'linvel_data.mat'));
+save(fullfile(directorio_destino, 'obs_guille.mat'));
+save(fullfile(directorio_destino, 'obs_liu.mat'));
+save(fullfile(directorio_destino, 'pose_gps.mat'));
+save(fullfile(directorio_destino, 'date_gps.mat'));
+save(fullfile(directorio_destino, 'pose_data.mat'));
+save(fullfile(directorio_destino, 'pose_data_liu.mat'));
+save(fullfile(directorio_destino, 'pose_data_obs.mat'));
+save(fullfile(directorio_destino, 'psi_data.mat'));
+save(fullfile(directorio_destino, 'RC_data_in.mat'));
+save(fullfile(directorio_destino, 'RC_data_out.mat'));
+save(fullfile(directorio_destino, 'RC_data_over.mat'));
+%save(fullfile(directorio_destino, 'ref_APM_data.mat'));
+save(fullfile(directorio_destino, 'ref_llc_data.mat'));
+%save(fullfile(directorio_destino, 'ref_mlc_data.mat'));
+save(fullfile(directorio_destino, 'IG_data.mat'));
+%save(fullfile(directorio_destino, 'error_data.mat'));
+%save(fullfile(directorio_destino, 'neighbor_data.mat'));
 
 %% Extract information from .mat
 
