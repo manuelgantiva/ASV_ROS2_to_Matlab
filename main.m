@@ -10,53 +10,56 @@
 % destination_directory.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 close all;clc;clear;
-folder = ['Rosbags 18-10-2024\ASV4-18-10-bag-15'];
+folder = ['Rosbags 06-11-2024\ASV0-6-11-bag-6'];
+asv = "ASV0";
 addpath Extraer\
 addpath Figuras\
 
 directorio_destino = 'C:\Users\megantiva\Documents\MATLAB\Ros2Mat\Data';
 % GENERAR DATOS Y GUARDAR EN CARPETA DATA
 % Observador Guille
-obs_guille = extract_obs(folder, "/control/state_observer_guille");             %asv_interfaces/msg/state_observer
+obs_guille = extract_obs(folder,asv + "/observer/state_observer_guille");             %asv_interfaces/msg/state_observer
 % Observador Liu
-obs_liu = extract_obs(folder, "/control/state_observer_liu");                   %asv_interfaces/msg/state_observer
+obs_liu = extract_obs(folder,asv + "/observer/state_observer_liu");                   %asv_interfaces/msg/state_observer
 % Observador Zonotopos
-obs_zono = extract_obs(folder, "/control/state_observer_zono");                 %asv_interfaces/msg/state_observer
-obs_zono_min = extract_obs(folder, "/control/state_observer_zono_min");         %asv_interfaces/msg/state_observer
-obs_zono_max = extract_obs(folder, "/control/state_observer_zono_max");         %asv_interfaces/msg/state_observer
+obs_zono = extract_obs(folder,asv +  "/observer/state_observer_zono");                 %asv_interfaces/msg/state_observer
+obs_zono_min = extract_obs(folder,asv +  "/observer/state_observer_zono_min");         %asv_interfaces/msg/state_observer
+obs_zono_max = extract_obs(folder,asv +  "/observer/state_observer_zono_max");         %asv_interfaces/msg/state_observer
 % Posiciones   
-pose_gps= extract_pose(folder, "/mavros/local_position/pose");                  %geometry_msgs/msg/pose_stamped
-date_gps= extract_gps(folder, "/mavros/global_position/global");                %geometry_msgs/msg/pose_stamped
-pose_data = extract_pose(folder, "/control/pose");                              %geometry_msgs/msg/pose_stamped
-psi_data = extract_psi(folder, "/mavros/global_position/compass_hdg");          %std_msgs/msg/float64
-pose_data_liu = extract_pose(folder, "/control/pose_liu");                      %geometry_msgs/msg/pose_stamped
-pose_data_obs = extract_pose(folder, "/control/pose_guille");                   %geometry_msgs/msg/pose_stamped
-pose_data_zono = extract_pose(folder, "/control/pose_zono");                    %geometry_msgs/msg/pose_stamped
+pose_gps= extract_pose(folder,asv +  "/mavros/local_position/pose");                  %geometry_msgs/msg/pose_stamped
+date_gps= extract_gps(folder,asv +  "/mavros/global_position/global");                %geometry_msgs/msg/pose_stamped
+pose_data = extract_pose(folder,asv +  "/control/pose");                              %geometry_msgs/msg/pose_stamped
+psi_data = extract_psi(folder,asv +  "/mavros/global_position/compass_hdg");          %std_msgs/msg/float64
+pose_data_liu = extract_pose(folder,asv +  "/observer/pose_liu");                      %geometry_msgs/msg/pose_stamped
+pose_data_obs = extract_pose(folder,asv +  "/observer/pose_guille");                   %geometry_msgs/msg/pose_stamped
+pose_data_zono = extract_pose(folder,asv +  "/observer/pose_zono");                    %geometry_msgs/msg/pose_stamped
 % velocidades
-linvel_data = extract_vel(folder, "/mavros/local_position/velocity_body", 1);   %geometry_msgs/msg/twist_stamped
-angvel_data = extract_vel(folder, "/mavros/imu/data", 2);                       %sensor_msgs/msg/imu -> solo velocidad angular
+linvel_data = extract_vel(folder,asv +  "/mavros/local_position/velocity_body", 1);   %geometry_msgs/msg/twist_stamped
+angvel_data = extract_vel(folder,asv +  "/mavros/imu/data", 2);                       %sensor_msgs/msg/imu -> solo velocidad angular
 % Acceleraciones
-accel_data = extract_vel(folder, "/mavros/imu/data", 3);                        %sensor_msgs/msg/imu -> velocidades lineales y cuaterniones  
-accel_data_raw = extract_vel(folder, "/mavros/imu/data_raw", 3);                %sensor_msgs/msg/imu -> velocidades lineales y cuaterniones
-accel_plane = extract_vel(folder, "/control/accel_imu", 4);                     %geometry_msgs/msg/twist -> velocidades lineales y angulos
-accel_data_ext = extract_vel(folder, "/imu_ext/data", 3);                       %sensor_msgs/msg/imu -> velocidades lineales y cuaterniones  
-accel_plane_ext = extract_vel(folder, "/control/accel_imu_ext", 4);                 %geometry_msgs/msg/twist -> velocidades lineales y angulos
+accel_data = extract_vel(folder,asv +  "/mavros/imu/data", 3);                        %sensor_msgs/msg/imu -> velocidades lineales y cuaterniones  
+accel_data_raw = extract_vel(folder,asv +  "/mavros/imu/data_raw", 3);                %sensor_msgs/msg/imu -> velocidades lineales y cuaterniones
+accel_plane = extract_vel(folder,asv +  "/control/accel_imu", 4);                     %geometry_msgs/msg/twist -> velocidades lineales y angulos
+accel_data_ext = extract_vel(folder,asv +  "/imu_ext/data", 3);                       %sensor_msgs/msg/imu -> velocidades lineales y cuaterniones  
+accel_plane_ext = extract_vel(folder,asv +  "/control/accel_imu_ext", 4);             %geometry_msgs/msg/twist -> velocidades lineales y angulos
 % RC_ data
-RC_data_out = extract_RC(folder, "/mavros/rc/out");                             %mavros_msgs/msg/rc_out
-RC_data_in = extract_RC(folder, "/mavros/rc/in");                               %mavros_msgs/msg/rc_in
-RC_data_over = extract_RCO(folder, "/mavros/rc/override");                      %mavros_msgs/msg/override_rc_in
+RC_data_out = extract_RC(folder,asv +  "/mavros/rc/out");                             %mavros_msgs/msg/rc_out
+RC_data_in = extract_RC(folder,asv +  "/mavros/rc/in");                               %mavros_msgs/msg/rc_in
+RC_data_over = extract_RCO(folder,asv +  "/mavros/rc/override");                      %mavros_msgs/msg/override_rc_in
 % Reference
-ref_llc_data = extract_ref(folder, "/control/reference_llc");                   %geometry_msgs/msg/vector3
-% ref_mlc_data = extract_ref_mlc(folder, "/control/reference_mlc");             %std_msgs/msg/float64
-IG_data = extract_IG(folder, "/control/IG_ifac");                               %geometry_msgs/msg/vector3
+ref_llc_data = extract_ref(folder,asv +  "/control/reference_llc");                   %geometry_msgs/msg/vector3
+ref_mlc_data = extract_ref_mlc(folder,asv +  "/control/reference_mlc");             %std_msgs/msg/float64
+IG_data = extract_IG(folder,asv +  "/control/IG_ifac");                               %geometry_msgs/msg/vector3
 % ref APM (ardupilot)
-ref_APM_data = extract_ref_APM(folder, "/mavros/setpoint_velocity/cmd_vel_unstamped");  %geometry_msgs/msg/twist
+ref_APM_data = extract_ref_APM(folder,asv + "/mavros/setpoint_velocity/cmd_vel_unstamped");  %geometry_msgs/msg/twist
 % PWM 
-ref_PWM_data = extract_PWM(folder, "/control/pwm_values");                      %asv_interfaces/msg/pwm_values
+ref_PWM_data = extract_PWM(folder,asv +  "/control/pwm_values");                      %asv_interfaces/msg/pwm_values
 % error mlc
-error_data = extract_error(folder, "/control/error_mlc");                       %geometry_msgs/msg/vector3
+error_data = extract_error(folder,asv +  "/control/error_mlc");                       %geometry_msgs/msg/vector3
 % Xbee
-neighbor_data = extract_neighbor(folder, "/comunication/xbee_observer");        %asv_interfaces/msg/XbeeObserver
+neighbor_data = extract_neighbor(folder,asv +  "/comunication/xbee_observer");        %asv_interfaces/msg/XbeeObserver
+
+clear asv folder 
 
 %% 
 valorInicial = RC_data_in(1,3);
@@ -85,10 +88,10 @@ RC_data_out(:, end) = RC_data_out(:, end) - valorInicial;
 RC_data_over(:, end) = RC_data_over(:, end) - valorInicial;
 ref_APM_data(:, end) = ref_APM_data(:, end) - valorInicial;
 ref_llc_data(:, end) = ref_llc_data(:, end) - valorInicial;
-% ref_mlc_data(:, end) = ref_mlc_data(:, end) - valorInicial;
+ref_mlc_data(:, end) = ref_mlc_data(:, end) - valorInicial;
 ref_PWM_data(:, end) = ref_PWM_data(:, end) - valorInicial;
 IG_data(:, end) = IG_data(:, end) - valorInicial;
-% error_data(:, end) = error_data(:, end) - valorInicial;
+error_data(:, end) = error_data(:, end) - valorInicial;
 neighbor_data(:, end) = neighbor_data(:, end) - valorInicial;
 
 %% Correct IMU reference frame
@@ -129,9 +132,9 @@ RC_data_out= table(RC_data_out(:,1),RC_data_out(:,2),RC_data_out(:,3), 'Variable
 RC_data_over= table(RC_data_over(:,1),RC_data_over(:,2),RC_data_over(:,3), 'VariableNames', {'left','right','tiempo'});
 ref_APM_data = table(ref_APM_data(:,1),ref_APM_data(:,2),ref_APM_data(:,3), 'VariableNames', {'u_ref','r_ref','tiempo'});
 ref_llc_data =  table(ref_llc_data(:,1),ref_llc_data(:,2),ref_llc_data(:,3),ref_llc_data(:,4), 'VariableNames', {'u_ref','r_ref','psi_ref','tiempo'});
-% ref_mlc_data =  table(ref_mlc_data(:,1),ref_mlc_data(:,2), 'VariableNames', {'u_d','tiempo'});
+ref_mlc_data =  table(ref_mlc_data(:,1),ref_mlc_data(:,2), 'VariableNames', {'u_d','tiempo'});
 IG_data = table(IG_data(:,1),IG_data(:,2),IG_data(:,3),IG_data(:,4), 'VariableNames', {'IGu','IGr','zone','tiempo'});
-% error_data = table(error_data(:,1),error_data(:,2),error_data(:,3),error_data(:,4), 'VariableNames', {'xe','ye','w','tiempo'});
+error_data = table(error_data(:,1),error_data(:,2),error_data(:,3),error_data(:,4), 'VariableNames', {'xe','ye','w','tiempo'});
 % neighbor_data = table(neighbor_data(:,1),neighbor_data(:,2),neighbor_data(:,3),neighbor_data(:,4),neighbor_data(:,5),neighbor_data(:,6),neighbor_data(:,7), 'VariableNames', {'x_n','y_n','psi_n','u_n','v_n','r_n','tiempo'});
 
 %% Save files .mat
@@ -184,7 +187,7 @@ figura_v_d(angvel_data, linvel_data, obs_guille, obs_liu, obs_zono, obs_zono_min
 figura_accel(accel_plane, angvel_data, obs_guille, linvel_data, directorio_destino)
 figuraRefu(ref_llc_data, obs_guille, obs_liu, obs_zono, obs_zono_min,obs_zono_max, angvel_data,linvel_data, directorio_destino)
 figuraIG(IG_data, directorio_destino)
-% figuraMLC(error_data, ref_mlc_data, directorio_destino)
+figuraMLC(error_data, ref_mlc_data, directorio_destino)
 
 %% Link the timelines of all created figures
 
@@ -198,8 +201,8 @@ figuraIG(IG_data, directorio_destino)
 
 %% Plot Mapas
 addpath Mapas/
-trayectoria(pose_data, pose_data_obs, pose_data_liu, directorio_destino,5,0)
-Mapa_real(pose_data, pose_data_obs, pose_data_liu, directorio_destino,5,0,false)
+trayectoria(pose_data, pose_data_obs, pose_data_liu, directorio_destino,2,0)
+Mapa_real(pose_data, pose_data_obs, pose_data_liu, directorio_destino,2,0,false)
 % Mapa_neighbor(pose_data_obs, neighbor_data, directorio_destino,5,9,1,false)
 % % Lake = 0 Mapa Lago de la Vida Grande % %
 % % Lake = 1 Mapa Lago del Alamillo Izquierda % %

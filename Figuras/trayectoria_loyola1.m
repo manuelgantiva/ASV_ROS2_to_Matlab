@@ -7,21 +7,22 @@ if path == 0
 
 elseif path == 1
     % Trayectorias parametrizadas
-    t = linspace(0, 5.602578771323868, 100); % Desde 0 hasta 1 con 100 puntos
+    t = linspace(0, 10.077822185373194, 100); % 100 puntos
     % Definir las funciones para x(t) y y(t)
-    x = -2.3203600575040464 * t;
-    y = -5.5331662909711845 * t;
+    x = 4.5 + -0.7938223013709336  * t;
+    y =   0.5 + -1.8357140719202854* t;
     
     % Definir parámetros de tiempo
-    t = linspace(2.7492525093742755,5.890845162964069, 100); % Desde 2.729182211992406 hasta 5.870774865582199 con 100 puntos
+    t = linspace(2.7334435498347043 , 4.304239876629601, 100); %  100 puntos
     % Definir las funciones para x(t) y y(t)
-    x1 = -7.4668337090288155 + 6.0 * cos(t);
-    y1 = -33.32036005750405 + 6.0 * sin(t);
+    x1 = -1.6642859280797144 + 2.0 * cos(t);
+    y1 =-18.793822301370934 + 2.0 * sin(t);
     
-    t = linspace(0, 2.5, 100); % Desde 0 hasta 1 con 100 puntos
+    t = linspace(0, 10.250000000000048, 100); % Desde 0 hasta 1 con 100 puntos
     % Definir las funciones para x(t) y y(t)
-    x2 = -1.9336674180576292 + 2.320360057504045 * t;
-    y2 = -35.640720115008094 + 5.533166290971186 *t;
+    x2 = -2.458108229450648 + 1.8357140719202774  * t;
+    y2 =  -20.62953637329122 + -0.793822301370952 * t;
+
     
     % Unir las trayectorias
     x_total = [x, x1, x2];
@@ -29,43 +30,42 @@ elseif path == 1
 
 elseif path == 2
     % Trayectorias parametrizadas
-    t = linspace(0, 6.723094525588656, 100); % Desde 0 hasta 1 con 100 puntos
+    t = linspace(0, 5.038911092686587, 100); % Desde 0 hasta 1 con 100 puntos
     % Definir las funciones para x(t) y y(t)
-    x = -1.933633381253368 * t;
-    y = -4.6109719091426555 * t;
+    x = 2.66 + -1.5876446027418702  * t;
+    y = 1.29 +-3.6714281438405694* t;
     
     % Definir parámetros de tiempo
-    t = linspace(2.7492525093742755,5.890845162964069, 100); % Desde 2.729182211992406 hasta 5.870774865582199 con 100 puntos
+    t = linspace(2.7334435498347034 , 4.3042398766296, 100); %  100 puntos
     % Definir las funciones para x(t) y y(t)
-    x1 = -8.389028090857344 + 5.0 * cos(t);
-    y1 = -32.93363338125337 + 5.0 * sin(t);
+    x1 = -1.6685718561594307 + 4.0 * cos(t);
+    y1 = -18.79764460274187 + 4.0 * sin(t);
     
-    t = linspace(0, 3.0, 100); % Desde 0 hasta 1 con 100 puntos
+    t = linspace(0,5.124999999999998, 100); % Desde 0 hasta 1 con 100 puntos
     % Definir las funciones para x(t) y y(t)
-    x2 = -3.77805618171469 + 1.9336333812533704 * t;
-    y2 = -34.867266762506745 + 4.610971909142655 * t;
+    x2 = -3.256216458901301 + 3.6714281438405703  * t;
+    y2 = -22.469072746582437 -1.587644602741868* t;
     
     % Unir las trayectorias
     x_total = [x, x1, x2];
     y_total = [y, y1, y2];
 
 elseif path == 3
-    % Trayectorias parametrizadas
-    t = linspace(0, 8.403868156985801, 100); % Desde 0 hasta 1 con 100 puntos
+    t = linspace(0, 3.3592740617910617, 100); % Desde 0 hasta 1 con 100 puntos
     % Definir las funciones para x(t) y y(t)
-    x = -1.5469067050026977 * t;
-    y = -3.688777527314123 * t;
+    x = 0.8200000000000001 + -2.381466904112803  * t;
+    y = 2.08  + -5.507142215760855* t;
     
     % Definir parámetros de tiempo
-    t = linspace(2.7492525093742755,5.890845162964069, 100); % Desde 2.729182211992406 hasta 5.870774865582199 con 100 puntos
+    t = linspace(2.733443549834704 , 4.3042398766296, 100); %  100 puntos
     % Definir las funciones para x(t) y y(t)
-    x1 = -9.311222472685877 + 4.0 * cos(t);
-    y1 = -32.5469067050027 + 4.0 * sin(t);
+    x1 = -1.6728577842391446 + 6.0 * cos(t);
+    y1 = -18.801466904112804 + 6.0 * sin(t);
     
-    t = linspace(0, 3.75, 100); % Desde 0 hasta 1 con 100 puntos
+    t = linspace(0, 3.416666666666667, 100); % Desde 0 hasta 1 con 100 puntos
     % Definir las funciones para x(t) y y(t)
-    x2 = -5.622444945371753 + 1.5469067050026968 * t;
-    y2 = -34.093813410005396 + 3.6887775273141243 * t;
+    x2 = -4.05432468835195  + 5.5071422157608545  * t;
+    y2 = -24.30860911987366  +-2.3814669041128056* t;
     
     % Unir las trayectorias
     x_total = [x, x1, x2];

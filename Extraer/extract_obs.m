@@ -36,7 +36,7 @@ function out = extract_obs(folder_name, topic_name)
         % sec = data{i, 1}.header.stamp.sec;
         % nano = data{i, 1}.header.stamp.nanosec;
         % nano = single(nano)/1e9;
-        % sec = single(mod(sec,1e6));
+        % sec = double(mod(sec,1e20));
         % time(i,1) = sec + nano;
     end
     time = double(bagSel.MessageList{:,1});
