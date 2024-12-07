@@ -73,6 +73,23 @@ elseif lake == 3
     one_px = 10/273;
     % Trayectorias parametrizadas
     [x_total, y_total] = trayectoria_loyola2(path);
+elseif lake == 4
+    % CARGAR IMAGEN DEL MAPA
+    if map == true
+        mapa = imread('Sydney 1 photoshop.jpg');
+    else
+        mapa = imread('Sydney 1.jpg');
+    end
+    mapTitle = 'Sydney';
+    % DEFINIR ORIGEN DE COORDENADAS XY (EN PIXELES)
+   origen_x = 1342;
+   origen_y = 1290;
+    
+    % EQUIVALENCIA PX A METROS
+    one_px = 100 / 232;
+    % Trayectorias parametrizadas
+    [x_total, y_total] = trayectoria_simulation(path);
+
 end
 %%
 % CÁLCULO DEL ORIGEN EN METROS (1Px = 0.0473m)
@@ -94,11 +111,11 @@ plot(x_lim,[0,0], 'k','LineWidth',1.0)
 %% Plot
 hold all
 % Trayectoria Deseada
-plot(x_total, y_total, '-w', 'LineWidth', 1.5);
+plot(x_total, y_total, '-y', 'LineWidth', 1.5);
 % Trayectoria real
 plot(pose_data.y(1,1), pose_data.x(1,1), '^','Color','k', 'LineWidth', 1.0,'MarkerFaceColor','b', 'MarkerSize', 9.0 )
 plot(pose_data.y(end,1), pose_data.x(end,1), 'o', 'Color','k','LineWidth', 1.0, 'MarkerFaceColor','g', 'MarkerSize', 9.0);
-plot(pose_data_obs.y_hat, pose_data_obs.x_hat, 'k', 'LineWidth', 1.5);
+plot(pose_data_obs.y_hat, pose_data_obs.x_hat, 'r', 'LineWidth', 1.5);
 % plot(pose_data_liu.y_hat, pose_data_liu.x_hat, 'r', 'LineWidth', 1);
 hold off
 xlabel('South $y(m)$','Interpreter','latex','FontSize',12)

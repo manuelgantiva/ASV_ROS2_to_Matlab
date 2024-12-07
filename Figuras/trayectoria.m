@@ -15,6 +15,9 @@ elseif lake == 2
 elseif lake == 3
     % Trayectorias parametrizadas
     [x_total, y_total] = trayectoria_loyola2(path);
+elseif lake == 4
+    % Trayectorias parametrizadas
+    [x_total, y_total] = trayectoria_simulation(path);
 end
 
 fig = figure('Name', 'Trajectory', 'NumberTitle', 'off');

@@ -10,8 +10,8 @@
 % destination_directory.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 close all;clc;clear;
-folder = ['Rosbags 06-11-2024\ASV0-6-11-bag-6'];
-asv = "ASV0";
+folder = ['Rosbags 06-12-2024\ASV1-6-12-bag-1'];
+asv = "ASV1";
 addpath Extraer\
 addpath Figuras\
 
@@ -25,7 +25,8 @@ obs_liu = extract_obs(folder,asv + "/observer/state_observer_liu");             
 obs_zono = extract_obs(folder,asv +  "/observer/state_observer_zono");                 %asv_interfaces/msg/state_observer
 obs_zono_min = extract_obs(folder,asv +  "/observer/state_observer_zono_min");         %asv_interfaces/msg/state_observer
 obs_zono_max = extract_obs(folder,asv +  "/observer/state_observer_zono_max");         %asv_interfaces/msg/state_observer
-% Posiciones   
+% Posiciones  
+pose_local_gps= extract_local(folder,asv +  "/mavros/global_position/local");          %nav_msgs/msg/Odometry
 pose_gps= extract_pose(folder,asv +  "/mavros/local_position/pose");                  %geometry_msgs/msg/pose_stamped
 date_gps= extract_gps(folder,asv +  "/mavros/global_position/global");                %geometry_msgs/msg/pose_stamped
 pose_data = extract_pose(folder,asv +  "/control/pose");                              %geometry_msgs/msg/pose_stamped
@@ -48,7 +49,9 @@ RC_data_in = extract_RC(folder,asv +  "/mavros/rc/in");                         
 RC_data_over = extract_RCO(folder,asv +  "/mavros/rc/override");                      %mavros_msgs/msg/override_rc_in
 % Reference
 ref_llc_data = extract_ref(folder,asv +  "/control/reference_llc");                   %geometry_msgs/msg/vector3
-ref_mlc_data = extract_ref_mlc(folder,asv +  "/control/reference_mlc");             %std_msgs/msg/float64
+ref_mlc_data = extract_float(folder,asv +  "/control/reference_mlc");                 %std_msgs/msg/float64
+ref_hlc_data = extract_float(folder,asv +  "/control/reference_hlc");                 %std_msgs/msg/float64
+% low level control Ifac
 IG_data = extract_IG(folder,asv +  "/control/IG_ifac");                               %geometry_msgs/msg/vector3
 % ref APM (ardupilot)
 ref_APM_data = extract_ref_APM(folder,asv + "/mavros/setpoint_velocity/cmd_vel_unstamped");  %geometry_msgs/msg/twist
@@ -57,7 +60,11 @@ ref_PWM_data = extract_PWM(folder,asv +  "/control/pwm_values");                
 % error mlc
 error_data = extract_error(folder,asv +  "/control/error_mlc");                       %geometry_msgs/msg/vector3
 % Xbee
-neighbor_data = extract_neighbor(folder,asv +  "/comunication/xbee_observer");        %asv_interfaces/msg/XbeeObserver
+% neighbor_data = extract_neighbor(folder,asv +  "/comunication/xbee_observer");        %asv_interfaces/msg/XbeeObserver
+w_slave = extract_float(folder,asv +  "/comunication/mlc_slave");                 %std_msgs/msg/float64
+% High level control MPC
+ref_master = extract_error(folder,asv +  "/control/ref_master");                       %geometry_msgs/msg/vector3
+w_virtual = extract_float(folder,asv +  "/control/w_virtual");                         %std_msgs/msg/float64
 
 clear asv folder 
 
@@ -76,6 +83,7 @@ obs_liu(:, end) = obs_liu(:, end) - valorInicial;
 obs_zono(:, end) = obs_zono(:, end) - valorInicial;
 obs_zono_min(:, end) = obs_zono_min(:, end) - valorInicial;
 obs_zono_max(:, end) = obs_zono_max(:, end) - valorInicial;
+pose_local_gps(:, end) = pose_local_gps(:, end) - valorInicial;
 pose_gps(:, end) = pose_gps(:, end) - valorInicial;
 date_gps(:, end) = date_gps(:, end) - valorInicial;
 pose_data(:, end) = pose_data(:, end) - valorInicial;
@@ -89,10 +97,14 @@ RC_data_over(:, end) = RC_data_over(:, end) - valorInicial;
 ref_APM_data(:, end) = ref_APM_data(:, end) - valorInicial;
 ref_llc_data(:, end) = ref_llc_data(:, end) - valorInicial;
 ref_mlc_data(:, end) = ref_mlc_data(:, end) - valorInicial;
+ref_hlc_data(:, end) = ref_hlc_data(:, end) - valorInicial;
 ref_PWM_data(:, end) = ref_PWM_data(:, end) - valorInicial;
 IG_data(:, end) = IG_data(:, end) - valorInicial;
 error_data(:, end) = error_data(:, end) - valorInicial;
-neighbor_data(:, end) = neighbor_data(:, end) - valorInicial;
+w_slave(:, end) = w_slave(:, end) - valorInicial;
+ref_master(:, end) = ref_master(:, end) - valorInicial;
+w_virtual(:, end) = w_virtual(:, end) - valorInicial;
+
 
 %% Correct IMU reference frame
 
@@ -121,11 +133,13 @@ obs_liu= table(obs_liu(:,1),obs_liu(:,2),obs_liu(:,3),obs_liu(:,4),obs_liu(:,5),
 obs_zono= table(obs_zono(:,1),obs_zono(:,2),obs_zono(:,3),obs_zono(:,4),obs_zono(:,5),obs_zono(:,6),obs_zono(:,7),obs_zono(:,8),obs_zono(:,9),obs_zono(:,10), 'VariableNames', {'x_hat','y_hat','psi_hat','u_hat','v_hat','r_hat','su_hat','sv_hat','sr_hat','tiempo'});
 obs_zono_min= table(obs_zono_min(:,1),obs_zono_min(:,2),obs_zono_min(:,3),obs_zono_min(:,4),obs_zono_min(:,5),obs_zono_min(:,6),obs_zono_min(:,7),obs_zono_min(:,8),obs_zono_min(:,9),obs_zono_min(:,10), 'VariableNames', {'x_hat','y_hat','psi_hat','u_hat','v_hat','r_hat','su_hat','sv_hat','sr_hat','tiempo'});
 obs_zono_max= table(obs_zono_max(:,1),obs_zono_max(:,2),obs_zono_max(:,3),obs_zono_max(:,4),obs_zono_max(:,5),obs_zono_max(:,6),obs_zono_max(:,7),obs_zono_max(:,8),obs_zono_max(:,9),obs_zono_max(:,10), 'VariableNames', {'x_hat','y_hat','psi_hat','u_hat','v_hat','r_hat','su_hat','sv_hat','sr_hat','tiempo'});
+pose_local_gps = table(pose_local_gps(:,1),pose_local_gps(:,2),pose_local_gps(:,3),pose_local_gps(:,4),'VariableNames',{'x','y','psi','tiempo'});
 pose_gps = table(pose_gps(:,1),pose_gps(:,2),pose_gps(:,3),pose_gps(:,4),'VariableNames',{'x','y','psi','tiempo'});
 date_gps = table(date_gps(:,1),date_gps(:,2),date_gps(:,3),date_gps(:,4),'VariableNames',{'lan','lon','alt','tiempo'});
 pose_data = table(pose_data(:,1),pose_data(:,2),pose_data(:,3),pose_data(:,4),'VariableNames',{'x','y','psi','tiempo'});
 pose_data_liu = table(pose_data_liu(:,1),pose_data_liu(:,2),pose_data_liu(:,3),pose_data_liu(:,4), 'VariableNames',{'x_hat','y_hat','psi_hat','tiempo'});
 pose_data_obs = table(pose_data_obs(:,1),pose_data_obs(:,2),pose_data_obs(:,3),pose_data_obs(:,4), 'VariableNames',{'x_hat','y_hat','psi_hat','tiempo'});
+pose_data_zono = table(pose_data_zono(:,1),pose_data_zono(:,2),pose_data_zono(:,3),pose_data_zono(:,4), 'VariableNames',{'x_hat','y_hat','psi_hat','tiempo'});
 psi_data= table(psi_data(:,1),psi_data(:,2), 'VariableNames', {'psi_grados', 'tiempo'});
 RC_data_in = table(RC_data_in(:,1),RC_data_in(:,2),RC_data_in(:,3), 'VariableNames', {'left','right','tiempo'});
 RC_data_out= table(RC_data_out(:,1),RC_data_out(:,2),RC_data_out(:,3), 'VariableNames', {'left','right','tiempo'});
@@ -133,36 +147,41 @@ RC_data_over= table(RC_data_over(:,1),RC_data_over(:,2),RC_data_over(:,3), 'Vari
 ref_APM_data = table(ref_APM_data(:,1),ref_APM_data(:,2),ref_APM_data(:,3), 'VariableNames', {'u_ref','r_ref','tiempo'});
 ref_llc_data =  table(ref_llc_data(:,1),ref_llc_data(:,2),ref_llc_data(:,3),ref_llc_data(:,4), 'VariableNames', {'u_ref','r_ref','psi_ref','tiempo'});
 ref_mlc_data =  table(ref_mlc_data(:,1),ref_mlc_data(:,2), 'VariableNames', {'u_d','tiempo'});
+ref_hlc_data =  table(ref_hlc_data(:,1),ref_hlc_data(:,2), 'VariableNames', {'u_f','tiempo'});
 IG_data = table(IG_data(:,1),IG_data(:,2),IG_data(:,3),IG_data(:,4), 'VariableNames', {'IGu','IGr','zone','tiempo'});
 error_data = table(error_data(:,1),error_data(:,2),error_data(:,3),error_data(:,4), 'VariableNames', {'xe','ye','w','tiempo'});
+w_slave = table(w_slave(:,1),w_slave(:,2), 'VariableNames', {'w_s','tiempo'});
+w_virtual = table(w_virtual(:,1),w_virtual(:,2), 'VariableNames', {'w_v','tiempo'});
+ref_master = table(ref_master(:,1),ref_master(:,2),ref_master(:,3),ref_master(:,4), 'VariableNames', {'U_f','U_m','U_s','tiempo'});
 % neighbor_data = table(neighbor_data(:,1),neighbor_data(:,2),neighbor_data(:,3),neighbor_data(:,4),neighbor_data(:,5),neighbor_data(:,6),neighbor_data(:,7), 'VariableNames', {'x_n','y_n','psi_n','u_n','v_n','r_n','tiempo'});
 
 %% Save files .mat
 
-save(fullfile(directorio_destino, 'angvel_data.mat'));
-save(fullfile(directorio_destino, 'accel_data.mat'));
-save(fullfile(directorio_destino, 'accel_data_raw.mat'));
-save(fullfile(directorio_destino, 'accel_plane.mat'));
-save(fullfile(directorio_destino, 'accel_data_ext.mat'));
-save(fullfile(directorio_destino, 'accel_plane_ext.mat'));
-save(fullfile(directorio_destino, 'linvel_data.mat'));
-save(fullfile(directorio_destino, 'obs_guille.mat'));
-save(fullfile(directorio_destino, 'obs_liu.mat'));
-save(fullfile(directorio_destino, 'pose_gps.mat'));
-save(fullfile(directorio_destino, 'date_gps.mat'));
-save(fullfile(directorio_destino, 'pose_data.mat'));
-save(fullfile(directorio_destino, 'pose_data_liu.mat'));
-save(fullfile(directorio_destino, 'pose_data_obs.mat'));
-save(fullfile(directorio_destino, 'psi_data.mat'));
-save(fullfile(directorio_destino, 'RC_data_in.mat'));
-save(fullfile(directorio_destino, 'RC_data_out.mat'));
-save(fullfile(directorio_destino, 'RC_data_over.mat'));
-%save(fullfile(directorio_destino, 'ref_APM_data.mat'));
-save(fullfile(directorio_destino, 'ref_llc_data.mat'));
-%save(fullfile(directorio_destino, 'ref_mlc_data.mat'));
-save(fullfile(directorio_destino, 'IG_data.mat'));
-%save(fullfile(directorio_destino, 'error_data.mat'));
-%save(fullfile(directorio_destino, 'neighbor_data.mat'));
+% save(fullfile(directorio_destino, 'angvel_data.mat'));
+% save(fullfile(directorio_destino, 'accel_data.mat'));
+% save(fullfile(directorio_destino, 'accel_data_raw.mat'));
+% save(fullfile(directorio_destino, 'accel_plane.mat'));
+% save(fullfile(directorio_destino, 'accel_data_ext.mat'));
+% save(fullfile(directorio_destino, 'accel_plane_ext.mat'));
+% save(fullfile(directorio_destino, 'linvel_data.mat'));
+% save(fullfile(directorio_destino, 'obs_guille.mat'));
+% save(fullfile(directorio_destino, 'obs_liu.mat'));
+% save(fullfile(directorio_destino, 'pose_local_gps.mat'));
+% save(fullfile(directorio_destino, 'pose_gps.mat'));
+% save(fullfile(directorio_destino, 'date_gps.mat'));
+% save(fullfile(directorio_destino, 'pose_data.mat'));
+% save(fullfile(directorio_destino, 'pose_data_liu.mat'));
+% save(fullfile(directorio_destino, 'pose_data_obs.mat'));
+% save(fullfile(directorio_destino, 'psi_data.mat'));
+% save(fullfile(directorio_destino, 'RC_data_in.mat'));
+% save(fullfile(directorio_destino, 'RC_data_out.mat'));
+% save(fullfile(directorio_destino, 'RC_data_over.mat'));
+% save(fullfile(directorio_destino, 'ref_APM_data.mat'));
+% save(fullfile(directorio_destino, 'ref_llc_data.mat'));
+% save(fullfile(directorio_destino, 'ref_mlc_data.mat'));
+% save(fullfile(directorio_destino, 'IG_data.mat'));
+% save(fullfile(directorio_destino, 'error_data.mat'));
+% save(fullfile(directorio_destino, 'neighbor_data.mat'));
 
 %% Extract information from .mat
 
@@ -181,13 +200,14 @@ save(fullfile(directorio_destino, 'IG_data.mat'));
 addpath Figuras/
 directorio_destino = 'C:\Users\megantiva\Documents\MATLAB\Ros2Mat\Plots';
 figuraRC(RC_data_out, RC_data_in,  directorio_destino)
-figura_pose(pose_data, pose_data_obs, pose_data_liu, directorio_destino)
+% figura_pose(pose_local_gps, pose_data_obs, pose_data_liu, directorio_destino)
 % figura_vel_dis(angvel_data, linvel_data, obs_guille, obs_liu, directorio_destino)
 figura_v_d(angvel_data, linvel_data, obs_guille, obs_liu, obs_zono, obs_zono_min,obs_zono_max, directorio_destino)
-figura_accel(accel_plane, angvel_data, obs_guille, linvel_data, directorio_destino)
+% figura_accel(accel_data, angvel_data, obs_guille, linvel_data, directorio_destino)
 figuraRefu(ref_llc_data, obs_guille, obs_liu, obs_zono, obs_zono_min,obs_zono_max, angvel_data,linvel_data, directorio_destino)
 figuraIG(IG_data, directorio_destino)
 figuraMLC(error_data, ref_mlc_data, directorio_destino)
+%figuraHLC(ref_hlc_data, error_data, w_slave, w_virtual, ref_master, ref_mlc_data, obs_zono,directorio_destino);
 
 %% Link the timelines of all created figures
 
@@ -201,10 +221,11 @@ figuraMLC(error_data, ref_mlc_data, directorio_destino)
 
 %% Plot Mapas
 addpath Mapas/
-trayectoria(pose_data, pose_data_obs, pose_data_liu, directorio_destino,2,0)
-Mapa_real(pose_data, pose_data_obs, pose_data_liu, directorio_destino,2,0,false)
+trayectoria(pose_local_gps, pose_data_zono, pose_data_liu, directorio_destino,4,4)
+Mapa_real(pose_local_gps, pose_data_zono, pose_data_liu, directorio_destino,4,4,false)
 % Mapa_neighbor(pose_data_obs, neighbor_data, directorio_destino,5,9,1,false)
 % % Lake = 0 Mapa Lago de la Vida Grande % %
 % % Lake = 1 Mapa Lago del Alamillo Izquierda % %
 % % Lake = 2 Mapa Lago del Alamillo Derecha % %
 % % Lake = 3 Mapa Lago de la Vida Pequeño % %
+% % Lake = 4 Mapa simulacion % %

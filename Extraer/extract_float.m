@@ -1,4 +1,4 @@
-function out = extract_ref_mlc(folder_name, topic_name)
+function out = extract_float(folder_name, topic_name)
     % Selección del tópico
     folderPath = fullfile(pwd,folder_name);
     bag = ros2bagreader(folderPath);
