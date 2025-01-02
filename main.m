@@ -10,8 +10,9 @@
 % destination_directory.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 close all;clc;clear;
-folder = ['Rosbags 06-12-2024\ASV1-6-12-bag-1'];
-asv = "ASV1";
+folder = ['Rosbags 06-12-2024\ASV0-6-12-bag-0'];
+asv = "ASV0" + ...
+    "";
 addpath Extraer\
 addpath Figuras\
 
@@ -56,12 +57,12 @@ IG_data = extract_IG(folder,asv +  "/control/IG_ifac");                         
 % ref APM (ardupilot)
 ref_APM_data = extract_ref_APM(folder,asv + "/mavros/setpoint_velocity/cmd_vel_unstamped");  %geometry_msgs/msg/twist
 % PWM 
-ref_PWM_data = extract_PWM(folder,asv +  "/control/pwm_values");                      %asv_interfaces/msg/pwm_values
+ref_PWM_data = extract_PWM(folder,asv +  "/control/pwm_values");                        %asv_interfaces/msg/pwm_values
 % error mlc
-error_data = extract_error(folder,asv +  "/control/error_mlc");                       %geometry_msgs/msg/vector3
+error_data = extract_error(folder,asv +  "/control/error_mlc");                         %geometry_msgs/msg/vector3
 % Xbee
 % neighbor_data = extract_neighbor(folder,asv +  "/comunication/xbee_observer");        %asv_interfaces/msg/XbeeObserver
-w_slave = extract_float(folder,asv +  "/comunication/mlc_slave");                 %std_msgs/msg/float64
+w_slave = extract_float(folder,asv +  "/comunication/mlc_slave");                       %std_msgs/msg/float64
 % High level control MPC
 ref_master = extract_error(folder,asv +  "/control/ref_master");                       %geometry_msgs/msg/vector3
 w_virtual = extract_float(folder,asv +  "/control/w_virtual");                         %std_msgs/msg/float64
@@ -157,29 +158,33 @@ ref_master = table(ref_master(:,1),ref_master(:,2),ref_master(:,3),ref_master(:,
 
 %% Save files .mat
 
-% save(fullfile(directorio_destino, 'angvel_data.mat'));
-% save(fullfile(directorio_destino, 'accel_data.mat'));
-% save(fullfile(directorio_destino, 'accel_data_raw.mat'));
-% save(fullfile(directorio_destino, 'accel_plane.mat'));
-% save(fullfile(directorio_destino, 'accel_data_ext.mat'));
-% save(fullfile(directorio_destino, 'accel_plane_ext.mat'));
-% save(fullfile(directorio_destino, 'linvel_data.mat'));
-% save(fullfile(directorio_destino, 'obs_guille.mat'));
-% save(fullfile(directorio_destino, 'obs_liu.mat'));
-% save(fullfile(directorio_destino, 'pose_local_gps.mat'));
-% save(fullfile(directorio_destino, 'pose_gps.mat'));
-% save(fullfile(directorio_destino, 'date_gps.mat'));
-% save(fullfile(directorio_destino, 'pose_data.mat'));
-% save(fullfile(directorio_destino, 'pose_data_liu.mat'));
-% save(fullfile(directorio_destino, 'pose_data_obs.mat'));
-% save(fullfile(directorio_destino, 'psi_data.mat'));
-% save(fullfile(directorio_destino, 'RC_data_in.mat'));
-% save(fullfile(directorio_destino, 'RC_data_out.mat'));
-% save(fullfile(directorio_destino, 'RC_data_over.mat'));
+save(fullfile(directorio_destino, 'angvel_data.mat'));
+save(fullfile(directorio_destino, 'accel_data.mat'));
+save(fullfile(directorio_destino, 'accel_data_raw.mat'));
+save(fullfile(directorio_destino, 'accel_plane.mat'));
+save(fullfile(directorio_destino, 'accel_data_ext.mat'));
+save(fullfile(directorio_destino, 'accel_plane_ext.mat'));
+save(fullfile(directorio_destino, 'linvel_data.mat'));
+save(fullfile(directorio_destino, 'obs_guille.mat'));
+save(fullfile(directorio_destino, 'obs_liu.mat'));
+save(fullfile(directorio_destino, 'obs_zono.mat'));
+save(fullfile(directorio_destino, 'obs_zono_min.mat'));
+save(fullfile(directorio_destino, 'obs_zono_max.mat'));
+save(fullfile(directorio_destino, 'pose_local_gps.mat'));
+save(fullfile(directorio_destino, 'pose_gps.mat'));
+save(fullfile(directorio_destino, 'date_gps.mat'));
+save(fullfile(directorio_destino, 'pose_data.mat'));
+save(fullfile(directorio_destino, 'pose_data_zono.mat'));
+save(fullfile(directorio_destino, 'pose_data_liu.mat'));
+save(fullfile(directorio_destino, 'pose_data_obs.mat'));
+save(fullfile(directorio_destino, 'psi_data.mat'));
+save(fullfile(directorio_destino, 'RC_data_in.mat'));
+save(fullfile(directorio_destino, 'RC_data_out.mat'));
+save(fullfile(directorio_destino, 'RC_data_over.mat'));
 % save(fullfile(directorio_destino, 'ref_APM_data.mat'));
-% save(fullfile(directorio_destino, 'ref_llc_data.mat'));
+save(fullfile(directorio_destino, 'ref_llc_data.mat'));
 % save(fullfile(directorio_destino, 'ref_mlc_data.mat'));
-% save(fullfile(directorio_destino, 'IG_data.mat'));
+save(fullfile(directorio_destino, 'IG_data.mat'));
 % save(fullfile(directorio_destino, 'error_data.mat'));
 % save(fullfile(directorio_destino, 'neighbor_data.mat'));
 
@@ -202,12 +207,12 @@ directorio_destino = 'C:\Users\megantiva\Documents\MATLAB\Ros2Mat\Plots';
 figuraRC(RC_data_out, RC_data_in,  directorio_destino)
 % figura_pose(pose_local_gps, pose_data_obs, pose_data_liu, directorio_destino)
 % figura_vel_dis(angvel_data, linvel_data, obs_guille, obs_liu, directorio_destino)
-figura_v_d(angvel_data, linvel_data, obs_guille, obs_liu, obs_zono, obs_zono_min,obs_zono_max, directorio_destino)
+figura_v_d(angvel_data, linvel_data, obs_guille, obs_zono, obs_zono, obs_zono_min,obs_zono_max, directorio_destino)
 % figura_accel(accel_data, angvel_data, obs_guille, linvel_data, directorio_destino)
-figuraRefu(ref_llc_data, obs_guille, obs_liu, obs_zono, obs_zono_min,obs_zono_max, angvel_data,linvel_data, directorio_destino)
+figuraRefu(ref_llc_data, obs_guille, obs_zono, obs_zono, obs_zono_min,obs_zono_max, angvel_data,linvel_data, directorio_destino)
 figuraIG(IG_data, directorio_destino)
 figuraMLC(error_data, ref_mlc_data, directorio_destino)
-%figuraHLC(ref_hlc_data, error_data, w_slave, w_virtual, ref_master, ref_mlc_data, obs_zono,directorio_destino);
+figuraHLC(ref_hlc_data, error_data, w_slave, w_virtual, ref_master, ref_mlc_data, obs_zono,directorio_destino);
 
 %% Link the timelines of all created figures
 
@@ -221,8 +226,8 @@ figuraMLC(error_data, ref_mlc_data, directorio_destino)
 
 %% Plot Mapas
 addpath Mapas/
-trayectoria(pose_local_gps, pose_data_zono, pose_data_liu, directorio_destino,4,4)
-Mapa_real(pose_local_gps, pose_data_zono, pose_data_liu, directorio_destino,4,4,false)
+trayectoria(pose_local_gps, pose_data_zono, pose_data_obs, directorio_destino,1,1)
+Mapa_real(pose_local_gps, pose_data_zono, pose_data_obs, directorio_destino,1,1,false)
 % Mapa_neighbor(pose_data_obs, neighbor_data, directorio_destino,5,9,1,false)
 % % Lake = 0 Mapa Lago de la Vida Grande % %
 % % Lake = 1 Mapa Lago del Alamillo Izquierda % %
