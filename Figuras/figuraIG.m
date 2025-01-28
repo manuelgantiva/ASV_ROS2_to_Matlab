@@ -1,9 +1,9 @@
 function figuraIG(IGu_data, directorio_destino)
 fig = figure('Name', 'Input Gains', 'NumberTitle', 'off');
 subplot(2,1,1);
-plot(IGu_data.tiempo,IGu_data.IGu, 'b', 'LineWidth', 0.5);
+plot(IGu_data.tiempo,IGu_data.IGu, 'b', 'LineWidth', 1.5);
 hold on
-plot(IGu_data.tiempo,IGu_data.IGr, 'r', 'LineWidth', 0.5);
+plot(IGu_data.tiempo,IGu_data.IGr, 'r', 'LineWidth', 1.5);
 grid on
 hold off
 xlim([0 inf]);
@@ -15,7 +15,7 @@ set(leg1,'FontSize',10);
 title('Input Gains','Interpreter','latex','FontSize',15);
 %% 
 subplot(2,1,2);
-plot(IGu_data.tiempo,IGu_data.zone, 'b', 'LineWidth', 0.5);
+plot(IGu_data.tiempo,IGu_data.zone, 'b', 'LineWidth', 1.5);
 grid on
 ylim([-1.1 1.1]);
 xlim([0 inf]);

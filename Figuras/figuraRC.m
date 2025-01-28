@@ -1,11 +1,11 @@
 function figuraRC(RC_data_out, RC_data_over, directorio_destino)
 fig = figure('Name', 'PWM Signals', 'NumberTitle', 'off');
-plot(RC_data_out.tiempo,RC_data_out.left, 'b', 'LineWidth', 0.5);
+plot(RC_data_out.tiempo,RC_data_out.left, 'b', 'LineWidth', 1.5);
 hold on
 grid on
-plot(RC_data_out.tiempo,RC_data_out.right, 'r', 'LineWidth', 0.5);
-plot(RC_data_over.tiempo,RC_data_over.right, 'g', 'LineWidth', 0.5);
-plot(RC_data_over.tiempo,RC_data_over.left, 'k', 'LineWidth', 0.5);
+plot(RC_data_out.tiempo,RC_data_out.right, 'r', 'LineWidth', 1.5);
+plot(RC_data_over.tiempo,RC_data_over.right, 'g', 'LineWidth', 1.5);
+plot(RC_data_over.tiempo,RC_data_over.left, 'k', 'LineWidth', 1.5);
 hold off
 ylim([1100 1950])
 xlim([0 inf]);
