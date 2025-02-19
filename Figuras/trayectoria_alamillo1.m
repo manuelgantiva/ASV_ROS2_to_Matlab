@@ -533,8 +533,97 @@ elseif path == 13
     % Unir las trayectorias
     x_total = [x, x1, x2, x3, x4, x5, x6, x7];
     y_total = [y, y1, y2, y3, y4, y5, y6, y7];
-
+elseif path == 14
+    t = linspace(0, 2*pi, 100); % Desde 0 hasta 1 con 100 puntos
+    % Definir las funciones para x(t) y y(t)
+    x =  -2.0 + 15.0 * sin(-t+pi/2);
+    y = -12.0 + 10.0 * sin(-2.0*t);
+   
+    % Unir las trayectorias
+    x_total = [x];
+    y_total = [y];
 elseif path == 15
+    t = linspace(0, 2*pi, 100); % Desde 0 hasta 1 con 100 puntos
+    % Definir las funciones para x(t) y y(t)
+    x =  -2.0 + 12.0 * sin(-t+pi/2);
+    y = -12.0 + 10.0 * sin(-2.0*t);
+   
+    % Unir las trayectorias
+    x_total = [x];
+    y_total = [y];
+elseif path == 16
+   t = linspace(0, 12.5, 100); % Desde 0 hasta 1 con 100 puntos
+    % Definir las funciones para x(t) y y(t)
+    x = -1.5 + 0.0* t;
+    y = -6.0 - 2 * t;
+    % Definir parámetros de tiempo
+    t = linspace(3.141592653589793 , 6.283185307179586 , 100); %  100 puntos
+    % % Definir las funciones para x(t) y y(t)
+    x1 =  3.0 + 4.5 * cos(t);
+    y1 = -31.0 + 4.5 * sin(t);
+    % 
+    t = linspace(0, 12.5, 100); % Desde 0 hasta 1 con 100 puntos
+    % Definir las funciones para x(t) y y(t)
+    x2 = 7.5 + 0.0 * t;
+    y2 = -31.0 + 2.0 * t;
+    % Definir parámetros de tiempo
+    t = linspace(0.0 , 3.141592653589793, 100); %  100 puntos
+    % Definir las funciones para x(t) y y(t)
+    x3 =  3.0 + 4.5 * cos(t);
+    y3 = -6.0 + 4.5 * sin(t);
+    % Unir las trayectorias
+    x_total = [x, x1, x2, x3];
+    y_total = [y, y1, y2, y3];
+
+elseif path == 17
+    t = linspace(0, 10.0, 100); % Desde 0 hasta 1 con 100 puntos
+    % Definir las funciones para x(t) y y(t)
+    x = 6.0 - 2.0 * t;
+    y = -1.5 + 0.0 * t;
+    
+    % Definir parámetros de tiempo
+    t = linspace(1.5707963267948966,3.141591653589793, 100); %  100 puntos
+    % Definir las funciones para x(t) y y(t)
+    x1 = -14.0 + 4.5 * cos(t);
+    y1 = -6.0 + 4.5 * sin(t);
+    
+    t = linspace(0, 10.0, 100); % Desde 0 hasta 1 con 100 puntos
+    % Definir las funciones para x(t) y y(t)
+    x2 = -18.5 + 0.0 * t;
+    y2 = -6.0 - 2.0  * t;
+    
+    % Definir parámetros de tiempo
+    t = linspace(3.141592653589793,4.71238898038469, 100); % 100 puntos
+    % Definir las funciones para x(t) y y(t)
+    x3 = -14.0 + 4.5 * cos(t);
+    y3 = -26.0 + 4.5 * sin(t);
+    
+    t = linspace(0, 10.0, 100); % Desde 0 hasta 1 con 100 puntos
+    % Definir las funciones para x(t) y y(t)
+    x4 = -14.0 + 2.0 * t;
+    y4 = -30.5 + 0.0 * t;
+    
+    % Definir parámetros de tiempo
+    t = linspace(-1.5707963267948966 ,0.0, 100); %  100 puntos
+    % Definir las funciones para x(t) y y(t)
+    x5 = 6.0 + 4.5 * cos(t);
+    y5 = -26.0 + 4.5 * sin(t);
+    % 
+    t = linspace(0, 10.0, 100); % Desde 0 hasta 1 con 100 puntos
+    % Definir las funciones para x(t) y y(t)
+    x6 = 10.5 + 0.0 * t;
+    y6 = -26.0 + 2.0  * t;
+    
+    % Definir parámetros de tiempo
+    t = linspace(0.0 , 1.5707953267948966, 100); % 100 puntos
+    % Definir las funciones para x(t) y y(t)
+    x7 = 6.0 + 4.5 * cos(t);
+    y7 = -6.0 + 4.5 * sin(t);
+
+    % Unir las trayectorias
+    x_total = [x, x1, x2, x3, x4, x5, x6, x7];
+    y_total = [y, y1, y2, y3, y4, y5, y6, y7];
+elseif path == 18
     t = linspace(0, 30.0, 100); % Desde 0 hasta 1 con 100 puntos
     % Definir las funciones para x(t) y y(t)
     x = 0.0 + 0.0 * t;

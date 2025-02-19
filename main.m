@@ -10,9 +10,9 @@
 % destination_directory.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 close all;clc;clear;
-folder = ['Rosbags 28-01-2025\ASV0-28-1-bag-0'];
-asv = "ASV0" + ...
-    "";
+folder = ['Rosbags 30-01-2025\ASV4-30-1-bag-24'];
+asv = "ASV4";
+
 addpath Extraer\
 addpath Figuras\
 
@@ -108,6 +108,8 @@ w_slave(:, end) = w_slave(:, end) - valorInicial;
 ref_master(:, end) = ref_master(:, end) - valorInicial;
 w_virtual(:, end) = w_virtual(:, end) - valorInicial;
 
+sigmas_mod = [obs_zono(:, 7)-sigmas_zono(:,1), obs_zono(:, 8)-sigmas_zono(:,2), obs_zono(:, 9)-sigmas_zono(:,3), obs_zono(:, end)];     %Comentar si no se usan las sigmas modeladas
+
 clear valorInicial
 
 %% Correct IMU reference frame
@@ -138,6 +140,7 @@ obs_zono= table(obs_zono(:,1),obs_zono(:,2),obs_zono(:,3),obs_zono(:,4),obs_zono
 obs_zono_min= table(obs_zono_min(:,1),obs_zono_min(:,2),obs_zono_min(:,3),obs_zono_min(:,4),obs_zono_min(:,5),obs_zono_min(:,6),obs_zono_min(:,7),obs_zono_min(:,8),obs_zono_min(:,9),obs_zono_min(:,10), 'VariableNames', {'x_hat','y_hat','psi_hat','u_hat','v_hat','r_hat','su_hat','sv_hat','sr_hat','tiempo'});
 obs_zono_max= table(obs_zono_max(:,1),obs_zono_max(:,2),obs_zono_max(:,3),obs_zono_max(:,4),obs_zono_max(:,5),obs_zono_max(:,6),obs_zono_max(:,7),obs_zono_max(:,8),obs_zono_max(:,9),obs_zono_max(:,10), 'VariableNames', {'x_hat','y_hat','psi_hat','u_hat','v_hat','r_hat','su_hat','sv_hat','sr_hat','tiempo'});
 sigmas_zono = table(sigmas_zono(:,1),sigmas_zono(:,2),sigmas_zono(:,3),sigmas_zono(:,4), 'VariableNames', {'s_u','s_v','s_r','tiempo'});
+sigmas_mod = table(sigmas_mod(:,1),sigmas_mod(:,2),sigmas_mod(:,3),sigmas_mod(:,4), 'VariableNames', {'s_u','s_v','s_r','tiempo'});
 pose_local_gps = table(pose_local_gps(:,1),pose_local_gps(:,2),pose_local_gps(:,3),pose_local_gps(:,4),'VariableNames',{'x','y','psi','tiempo'});
 pose_gps = table(pose_gps(:,1),pose_gps(:,2),pose_gps(:,3),pose_gps(:,4),'VariableNames',{'x','y','psi','tiempo'});
 date_gps = table(date_gps(:,1),date_gps(:,2),date_gps(:,3),date_gps(:,4),'VariableNames',{'lan','lon','alt','tiempo'});
@@ -163,36 +166,8 @@ ref_master = table(ref_master(:,1),ref_master(:,2),ref_master(:,3),ref_master(:,
 
 %% Save files .mat
 
-% save(fullfile(directorio_destino, 'angvel_data.mat'));
-% save(fullfile(directorio_destino, 'accel_data.mat'));
-% save(fullfile(directorio_destino, 'accel_data_raw.mat'));
-% save(fullfile(directorio_destino, 'accel_plane.mat'));
-% save(fullfile(directorio_destino, 'accel_data_ext.mat'));
-% save(fullfile(directorio_destino, 'accel_plane_ext.mat'));
-% save(fullfile(directorio_destino, 'linvel_data.mat'));
-% save(fullfile(directorio_destino, 'obs_guille.mat'));
-% save(fullfile(directorio_destino, 'obs_liu.mat'));
-% save(fullfile(directorio_destino, 'obs_zono.mat'));
-% save(fullfile(directorio_destino, 'obs_zono_min.mat'));
-% save(fullfile(directorio_destino, 'obs_zono_max.mat'));
-% save(fullfile(directorio_destino, 'sigmas_zono.mat'));
-% save(fullfile(directorio_destino, 'pose_local_gps.mat'));
-% save(fullfile(directorio_destino, 'pose_gps.mat'));
-% save(fullfile(directorio_destino, 'date_gps.mat'));
-% save(fullfile(directorio_destino, 'pose_data.mat'));
-% save(fullfile(directorio_destino, 'pose_data_zono.mat'));
-% save(fullfile(directorio_destino, 'pose_data_liu.mat'));
-% save(fullfile(directorio_destino, 'pose_data_obs.mat'));
-% save(fullfile(directorio_destino, 'psi_data.mat'));
-% save(fullfile(directorio_destino, 'RC_data_in.mat'));
-% save(fullfile(directorio_destino, 'RC_data_out.mat'));
-% save(fullfile(directorio_destino, 'RC_data_over.mat'));
-% save(fullfile(directorio_destino, 'ref_APM_data.mat'));
-% save(fullfile(directorio_destino, 'ref_llc_data.mat'));
-% save(fullfile(directorio_destino, 'ref_mlc_data.mat'));
-% save(fullfile(directorio_destino, 'IG_data.mat'));
-% save(fullfile(directorio_destino, 'error_data.mat'));
-% save(fullfile(directorio_destino, 'neighbor_data.mat'));
+save(fullfile(directorio_destino, 'test.mat'));
+
 
 %% Extract information from .mat
 
@@ -216,12 +191,12 @@ addpath Figuras/
 
 figuraRC(RC_data_out, RC_data_in,  directorio_destino)
 figura_v_d(angvel_data, linvel_data, obs_guille, obs_zono, obs_zono_min,obs_zono_max, directorio_destino)
-figura_sigmas(obs_guille, obs_zono, sigmas_zono, directorio_destino)
+figura_sigmas(obs_guille, obs_zono, sigmas_zono,sigmas_mod, directorio_destino)
 
 figuraRefu(ref_llc_data, obs_guille, obs_zono, obs_zono_min,obs_zono_max, angvel_data,linvel_data, directorio_destino)
 figuraIG(IG_data, directorio_destino)
-
-% figuraMLC(error_data, ref_mlc_data, directorio_destino)
+%%
+figuraMLC(error_data, ref_mlc_data, directorio_destino)
 % figuraHLC(ref_hlc_data, error_data, w_slave, w_virtual, ref_master, ref_mlc_data, obs_zono,directorio_destino);
 
 %% Link the timelines of all created figures
@@ -236,8 +211,8 @@ figuraIG(IG_data, directorio_destino)
 
 %% Plot Mapas
 addpath Mapas/
-trayectoria(pose_local_gps, pose_data_zono, pose_data_obs, directorio_destino,1,1)  %path , lake
-Mapa_real(pose_local_gps, pose_data_zono, pose_data_obs, directorio_destino,1,1,false)
+% trayectoria(pose_local_gps, pose_data_zono, pose_data_obs, directorio_destino,4,1)  %path , lake
+Mapa_real(pose_local_gps, pose_data_zono, pose_data_obs, directorio_destino,15,1,false)
 % Mapa_neighbor(pose_data_obs, neighbor_data, directorio_destino,5,9,1,false)
 % % Lake = 0 Mapa Lago de la Vida Grande % %
 % % Lake = 1 Mapa Lago del Alamillo Izquierda % %
