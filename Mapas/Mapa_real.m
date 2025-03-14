@@ -3,6 +3,8 @@ function Mapa_real( pose_data, pose_data_obs, pose_data_liu, directorio_destino,
 % Lake = 1 Mapa Lago del Alamillo Izquierda
 % Lake = 2 Mapa Lago del Alamillo Derecha
 % Lake = 3 Mapa Lago de la Vida Pequeño
+% Lake = 4 Mapa Sydney
+% Lake = 5 Mapa Gelves
 
 % map = True Mapa Binario
 % map = False Mapa Normal
@@ -89,6 +91,22 @@ elseif lake == 4
     one_px = 100 / 232;
     % Trayectorias parametrizadas
     [x_total, y_total] = trayectoria_simulation(path);
+elseif lake == 5
+    % CARGAR IMAGEN DEL MAPA
+    if map == true
+        mapa = imread('Gelves photoshop.jpg');
+    else
+        mapa = imread('Gelves.jpg');
+    end
+    mapTitle = 'Sydney';
+    % DEFINIR ORIGEN DE COORDENADAS XY (EN PIXELES)
+   origen_x = 1944;
+            origen_y = 338;
+    
+    % EQUIVALENCIA PX A METROS
+    one_px = 30 / 353;
+    % Trayectorias parametrizadas
+    [x_total, y_total] = trayectoria_gelves(path);
 
 end
 %%

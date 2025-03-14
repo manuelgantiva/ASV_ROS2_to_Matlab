@@ -10,7 +10,7 @@
 % destination_directory.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 close all;clc;clear;
-folder = ['Rosbags 30-01-2025\ASV4-30-1-bag-24'];
+folder = ['Rosbags 20-02-2025\ASV4-20-2-bag-29'];
 asv = "ASV4";
 
 addpath Extraer\
@@ -212,10 +212,11 @@ figuraMLC(error_data, ref_mlc_data, directorio_destino)
 %% Plot Mapas
 addpath Mapas/
 % trayectoria(pose_local_gps, pose_data_zono, pose_data_obs, directorio_destino,4,1)  %path , lake
-Mapa_real(pose_local_gps, pose_data_zono, pose_data_obs, directorio_destino,15,1,false)
+Mapa_real(pose_local_gps, pose_data_zono, pose_data_obs, directorio_destino,4,5,false)
 % Mapa_neighbor(pose_data_obs, neighbor_data, directorio_destino,5,9,1,false)
 % % Lake = 0 Mapa Lago de la Vida Grande % %
 % % Lake = 1 Mapa Lago del Alamillo Izquierda % %
 % % Lake = 2 Mapa Lago del Alamillo Derecha % %
 % % Lake = 3 Mapa Lago de la Vida Pequeño % %
 % % Lake = 4 Mapa simulacion % %
+% % Lake = 5 Mapa Gelves % %
